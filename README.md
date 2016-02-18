@@ -1,2 +1,2 @@
-# digital-sandbox
-Sandboxed environment for testing dynamic web applications. Powered by &lt;a href="https://github.com/codeworksdev/mochi">Mochi&lt;/a>.
+# Digital Sandbox
+Sandboxed environment for testing dynamic web applications. Powered by the <a href="https://github.com/codeworksdev/mochi">Mochi</a> boilderplate framework.

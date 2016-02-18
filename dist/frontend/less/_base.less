@@ -1,0 +1,42 @@
+[data-page="0"] {
+
+    body {
+        background: @_white;
+
+        #content {
+            margin: 0 auto;
+            background: 0 0 no-repeat;
+            background-size: cover;
+
+            > iframe {
+                .reset;
+                }
+            }
+        }
+
+    &[data-view="0"] body {
+        background: 0 0 repeat url(../img/web/tile.gif);
+
+        &[data-device="ipad"] {
+
+            #content {
+                .size(1252px,884px,block);
+
+                margin-top: 1em;
+                background-image: url(../img/web/devices/ipad.png);
+                padding: 57px 0 0 114px;
+
+                > iframe {
+                    .size(1024px,768px,block);
+                    }
+                }
+            }
+        }
+
+    &[data-view="1"] body {
+
+        #container {
+            padding: 2em;
+            }
+        }
+    }

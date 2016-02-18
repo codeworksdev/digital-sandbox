@@ -115,19 +115,50 @@ DigitalSandboxApps.prototype =
                     'click',
                     function(event)
                     {
-                        event.preventDefault();
-
                         var e = $(this),
-                            h = e.attr('href');
+                            h = {new : e.attr('href')};
 
-                        if (window.frameElement)
+                        try
                         {
-                            window.parent.location.replace(h);
-                            window.parent.location.reload(true);
+                            h.old = window.parent.location.href;
+
+                            event.preventDefault();
+
+                            if (window.frameElement)
+                            {
+                                window.parent.location.replace(h.new);
+
+                                if (/\/$/.test(h.old))
+                                {
+                                    window.parent.location.reload(true)
+                                }
+                            }
+                            else
+                            {
+                                window.location.replace(
+                                    /^(\.\/)(.+)$/.test(h.new)
+                                      ? (RegExp.$1 + 'index.html' + RegExp.$2)
+                                      : h.new
+                                    );
+                            }
                         }
-                        else
+                        catch(Exception)
                         {
-                            window.location.replace(h)
+                            if (!/^https?:\/\//i.test(h.new))
+                            {
+                                e.attr(
+                                    'href',
+                                    h.new = h.new.replace(/\?\d+/,'')
+                                    );
+
+                                if (/^(\.\/)(?:index\.html)?(#.+)$/.test(h.new))
+                                {
+                                    e.attr(
+                                        'href',
+                                        h.new = RegExp.$1 + 'index.html?' + Math.floor(Date.now()/1000) + RegExp.$2
+                                        );
+                                }
+                            }
                         }
                     }
                     );

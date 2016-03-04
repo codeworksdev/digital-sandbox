@@ -1,42 +1,302 @@
+html,
+body,
+#container {
+    height: 100%;
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+body {
+    overflow-y: scroll;
+
+    #container {
+
+        #inner-container {
+            margin: 0 auto;
+            height: 100%;
+
+            #content {
+                vertical-align: middle;
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
 [data-page="0"] {
 
     body {
         background: @_white;
 
-        #content {
+        #inner-content {
+            display: block;
             margin: 0 auto;
             background: 0 0 no-repeat;
             background-size: cover;
 
+            &,
             > iframe {
-                .reset;
+                position: relative;
+                }
+
+            > iframe {
+                .reset(block);
                 }
             }
         }
 
     &[data-view="0"] body {
         background: 0 0 repeat url(../img/web/tile.gif);
-
-        &[data-device="ipad"] {
-
-            #content {
-                .size(1252px,884px,block);
-
-                margin-top: 1em;
-                background-image: url(../img/web/devices/ipad.png);
-                padding: 57px 0 0 114px;
-
-                > iframe {
-                    .size(1024px,768px,block);
-                    }
-                }
-            }
         }
 
     &[data-view="1"] body {
 
         #container {
+            overflow-y: visible;
             padding: 2em;
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] #toolbar {
+    .cf;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    padding: 20px;
+    width: 100%;
+
+    #inner-toolbar {
+        .cf;
+
+        float: right;
+
+        > [data-button] {
+            .reset;
+
+            position: relative;
+            float: left;
+            cursor: pointer;
+
+            &:before {
+                .fa;
+
+                color: @_white;
+                font-size: 18px;
+                opacity: 0.5;
+                }
+
+            &:not(:first-child) {
+                margin-left: 15px;
+                }
+
+            &:hover:before {
+                opacity: 1;
+                }
+            }
+
+        > [data-button="reload"]:before {content: '\f021';}
+        > [data-button="device"]:before {content: '\f108';}
+        > [data-button="rotate"]:before {content: '\f01e';}
+        > [data-button="launch"]:before {content: '\f00b';}
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] #device-menu {
+    .cf;
+
+    position: absolute;
+    right: -40px;
+    top: 40px;
+    visibility: hidden;
+
+    &.open {
+        visibility: visible;
+        }
+
+    &:before {
+        .fa('\f0d8',50px);
+
+        position: absolute;
+        right: 35px;
+        top: -28px;
+        z-index: 2;
+        color: @_white;
+        }
+
+    #inner-device-menu {
+        .border-radius(10px);
+
+        position: relative;
+        z-index: 1;
+        background: @_white;
+        border: 3px solid fade(@_black,75%);
+        float: left;
+        padding: 20px;
+        min-width: 260px;
+
+        [data-action] {
+            .reset(inline-block);
+
+            position: absolute;
+            right: 0;
+            top: 0;
+            opacity: 0.5;
+            padding: 5px;
+
+            &:before {
+                .fa('',18px);
+                }
+            }
+
+        [data-action="exit"]:before {
+            content: '\f057';
+            }
+
+        [data-button] {
+            .reset;
+
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+
+            &:before {
+                .fa('\f00c');
+
+                color: @_black;
+                font-size: 16px;
+                opacity: 0;
+                padding-right: 5px;
+                }
+
+            &:hover:before {
+                opacity: 0.25;
+                }
+
+            &.selected {
+                font-weight: 700;
+
+                &:before {
+                    opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body {
+
+    #inner-content {
+
+        &, > iframe {
+            .size(768px,1024px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+
+            &, > iframe {
+                .size(1024px,768px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="ipad"] {
+
+    #inner-content {
+        .size(884px,1252px);
+
+        background-image: url(../img/web/devices/apple/ipad.png);
+
+        > iframe {
+            .size(768px,1024px);
+            .xy(57px,114px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(1252px,884px);
+
+            background-image: url(../img/web/devices/apple/ipad-l.png);
+
+            > iframe {
+                .size(1024px,768px);
+                .xy(114px,57px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="iphone6plus"] {
+
+    #inner-content {
+        .size(476px,958px);
+
+        background-image: url(../img/web/devices/apple/iphone6plus.png);
+
+        > iframe {
+            .size(414px,736px);
+            .xy(31px,109px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(958px,476px);
+
+            background-image: url(../img/web/devices/apple/iphone6plus-l.png);
+
+            > iframe {
+                .size(736px,414px);
+                .xy(113px,31px);
+                }
             }
         }
     }

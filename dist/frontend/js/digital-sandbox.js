@@ -1,6 +1,6 @@
 /*!
- * Digital Sandbox v1.2 (https://github.com/precisionforvalue/digital-sandbox)
- * Copyright (c) 2016 Carlos M. Bonilla <carlos.bonilla@precisionforvalue.com>
+ * Digital Sandbox v1.2 (https://github.com/codeworksdev/digital-sandbox)
+ * Copyright (c) 2016 Carlos M. Bonilla <guru@codeworksnyc.com>
  * Licensed under the MIT license
  */
 

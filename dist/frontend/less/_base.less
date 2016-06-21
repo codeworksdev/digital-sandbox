@@ -13,15 +13,12 @@ body,
 body {
     overflow-y: scroll;
 
-    #container {
+    #inner-container {
+        margin: 0 auto;
+        height: 100%;
 
-        #inner-container {
-            margin: 0 auto;
-            height: 100%;
-
-            #content {
-                vertical-align: middle;
-                }
+        #content {
+            vertical-align: middle;
             }
         }
     }
@@ -87,6 +84,7 @@ body {
         .cf;
 
         float: right;
+        margin-right: 20px;
 
         > [data-button] {
             .reset;
@@ -98,13 +96,15 @@ body {
             &:before {
                 .fa;
 
+                text-align: center;
                 color: @_white;
                 font-size: 18px;
                 opacity: 0.5;
+                width: 1.28571429em;
                 }
 
             &:not(:first-child) {
-                margin-left: 15px;
+                margin-left: 10px;
                 }
 
             &:hover:before {
@@ -112,10 +112,12 @@ body {
                 }
             }
 
-        > [data-button="reload"]:before {content: '\f021';}
-        > [data-button="device"]:before {content: '\f108';}
-        > [data-button="rotate"]:before {content: '\f01e';}
-        > [data-button="launch"]:before {content: '\f00b';}
+        > [data-button="refresh"]:before {content: '\f021';}
+        > [data-button="reload"]:before  {content: '\f0e7';}
+        > [data-button="device"]:before  {content: '\f108';}
+        > [data-button="rotate"]:before  {content: '\f07d';}
+        > [data-button="launch"]:before  {content: '\f00b';}
+        > [data-button="about"]:before   {content: '\f05a';}
         }
     }
 
@@ -129,22 +131,12 @@ body {
     .cf;
 
     position: absolute;
-    right: -40px;
+    right: -69px;
     top: 40px;
     visibility: hidden;
 
     &.open {
         visibility: visible;
-        }
-
-    &:before {
-        .fa('\f0d8',50px);
-
-        position: absolute;
-        right: 35px;
-        top: -28px;
-        z-index: 2;
-        color: @_white;
         }
 
     #inner-device-menu {
@@ -218,7 +210,7 @@ body {
     #inner-content {
 
         &, > iframe {
-            .size(768px,1024px);
+            .size(768px,1024px,block);
             }
         }
 
@@ -229,6 +221,53 @@ body {
             &, > iframe {
                 .size(1024px,768px);
                 }
+            }
+
+        #toolbar #inner-toolbar > [data-button="rotate"]:before {
+            content: '\f07d';
+            }
+        }
+
+    &[data-orientation="p"] {
+
+        #toolbar #inner-toolbar > [data-button="rotate"]:before {
+            content: '\f07e';
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="fullscreen"] {
+
+    #inner-container,
+    #inner-container tbody,
+    #inner-container tr,
+    #inner-container td,
+    #content,
+    #inner-content,
+    #inner-content > iframe {
+        .size(100%,100%,block);
+        }
+
+    #toolbar {
+        position: relative;
+
+
+        }
+
+    #device-menu #inner-device-menu {
+        .border-radius(0px 0px 10px 10px);
+
+        border-top: 0;
+        padding-top: 23px;
+
+        [data-action] {
+            top: 3px;
             }
         }
     }
@@ -273,12 +312,12 @@ body {
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 */
 
-[data-page="0"][data-view="0"] body[data-device="iphone6plus"] {
+[data-page="0"][data-view="0"] body[data-device="iphone_6plus"] {
 
     #inner-content {
         .size(476px,958px);
 
-        background-image: url(../img/web/devices/apple/iphone6plus.png);
+        background-image: url(../img/web/devices/apple/iphone_6plus.png);
 
         > iframe {
             .size(414px,736px);
@@ -291,11 +330,147 @@ body {
         #inner-content {
             .size(958px,476px);
 
-            background-image: url(../img/web/devices/apple/iphone6plus-l.png);
+            background-image: url(../img/web/devices/apple/iphone_6plus-l.png);
 
             > iframe {
                 .size(736px,414px);
                 .xy(113px,31px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="iphone_5s"] {
+
+    #inner-content {
+        .size(384px,802px);
+
+        background-image: url(../img/web/devices/apple/iphone_5s.png);
+
+        > iframe {
+            .size(320px,568px);
+            .xy(33px,119px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(802px,384px);
+
+            background-image: url(../img/web/devices/apple/iphone_5s-l.png);
+
+            > iframe {
+                .size(568px,320px);
+                .xy(115px,33px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="galaxy_s5"] {
+
+    #inner-content {
+        .size(410px,796px);
+
+        background-image: url(../img/web/devices/samsung/galaxy_s5.png);
+
+        > iframe {
+            .size(360px,640px);
+            .xy(25px,77px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(796px,410px);
+
+            background-image: url(../img/web/devices/samsung/galaxy_s5-l.png);
+
+            > iframe {
+                .size(640px,360px);
+                .xy(77px,25px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="nexus_7"] {
+
+    #inner-content {
+        .size(752px,1312px);
+
+        background-image: url(../img/web/devices/google/nexus_7.png);
+
+        > iframe {
+            .size(600px,960px);
+            .xy(76px,161px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(1312px,752px);
+
+            background-image: url(../img/web/devices/google/nexus_7-l.png);
+
+            > iframe {
+                .size(960px,600px);
+                .xy(161px,76px);
+                }
+            }
+        }
+    }
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+[data-page="0"][data-view="0"] body[data-device="nexus_10"] {
+
+    #inner-content {
+        .size(1142px,1554px);
+
+        background-image: url(../img/web/devices/google/nexus_10.png);
+
+        > iframe {
+            .size(800px,1280px);
+            .xy(183px,137px);
+            }
+        }
+
+    &[data-orientation="l"] {
+
+        #inner-content {
+            .size(1554px,1142px);
+
+            background-image: url(../img/web/devices/google//nexus_10-l.png);
+
+            > iframe {
+                .size(1280px,800px);
+                .xy(137px,159px);
                 }
             }
         }

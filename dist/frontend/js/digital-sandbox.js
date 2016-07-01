@@ -54,8 +54,8 @@ DigitalSandboxWrapper.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2016-06-20',
-            number  : '1.2.0',
+            date    : '2016-07-01',
+            number  : '1.2.1',
             product : 'Digital Sandbox',
             type    : 'final'
             };
@@ -72,6 +72,8 @@ DigitalSandboxWrapper.prototype =
             this.url.type  = /^https?:\/\//i.test(this.url.query) ? 'ext' : 'int';
             this.url.src   = './apps.html';
 
+            console.log(this.url);
+
             switch (this.url.type)
             {
                 case 'ext':
@@ -81,10 +83,12 @@ DigitalSandboxWrapper.prototype =
                 case 'int':
                 if (/^([\w-:]+)(?:\/([\w-:]*))?$/.test(this.url.query))
                 {
-                    this.url.app   = RegExp.$1.replace(/\:/g,'/');
                     this.url.index = RegExp.$2 || 'index';
+                    this.url.app   = RegExp.$1.replace(/\:/g,'/');
                     this.url.ext   = 'html';
                     this.url.src   = './frontend/apps/'+this.url.app+'/'+this.url.index+'.'+this.url.ext;
+
+                    console.log(this.url);
                 }
                 break;
             }

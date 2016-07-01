@@ -72,8 +72,6 @@ DigitalSandboxWrapper.prototype =
             this.url.type  = /^https?:\/\//i.test(this.url.query) ? 'ext' : 'int';
             this.url.src   = './apps.html';
 
-            console.log(this.url);
-
             switch (this.url.type)
             {
                 case 'ext':
@@ -87,8 +85,6 @@ DigitalSandboxWrapper.prototype =
                     this.url.app   = RegExp.$1.replace(/\:/g,'/');
                     this.url.ext   = 'html';
                     this.url.src   = './frontend/apps/'+this.url.app+'/'+this.url.index+'.'+this.url.ext;
-
-                    console.log(this.url);
                 }
                 break;
             }

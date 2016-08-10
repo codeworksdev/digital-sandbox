@@ -1,6 +1,6 @@
 /*!
- * Digital Sandbox v1.2 (https://github.com/codeworksdev/digital-sandbox)
- * Copyright (c) 2016 Carlos M. Bonilla <guru@codeworksnyc.com>
+ * Digital Sandbox v1.3.0 (https://github.com/codeworksdev/digital-sandbox)
+ * Copyright (c) 2016 CODEWORKS <guru@codeworksnyc.com>
  * Licensed under the MIT license
  */
 
@@ -54,8 +54,8 @@ DigitalSandboxWrapper.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2016-07-01',
-            number  : '1.2.1',
+            date    : '2016-08-10',
+            number  : '1.3.0',
             product : 'Digital Sandbox',
             type    : 'final'
             };
@@ -213,12 +213,13 @@ DigitalSandboxToolbar.prototype =
         this.options = {
 
             buttons : {
-                refresh : 'Refresh Window',
-                reload  : 'Refresh iFrame/App',
-                device  : 'Device Mode',
-                rotate  : 'Orientation',
-                launch  : 'Index',
-                about   : 'About'
+                refresh  : 'Refresh Window',
+                qrefresh : 'Quick Refresh',
+                reload   : 'Refresh App',
+                device   : 'Device Mode',
+                rotate   : 'Orientation',
+                launch   : 'Index',
+                about    : 'About'
                 }
             };
     },
@@ -274,12 +275,13 @@ DigitalSandboxToolbar.prototype =
         this[f](b)
     },
 
-    doRefresh : function(b){window.location.reload(true)},
-    doReload  : function(b){$m.wrapper.iframe.attr('src',$m.wrapper.iframe.attr('src'))},
-    doLaunch  : function(b){$m.wrapper.iframe.attr('src','./apps.html')},
-    doDevice  : function(b){$m.device.open(b)},
-    doRotate  : function(b){$m.device.rotate()},
-    doAbout   : function(b){alert($m.wrapper.ver.str)}
+    doRefresh  : function(b){window.location.reload(true)},
+    doReload   : function(b){$m.wrapper.iframe.attr('src',$m.wrapper.iframe.attr('src'))},
+    doQrefresh : function(b){try{$m.wrapper.iframe[0].contentWindow.location.reload()}catch(e){alert('This feature is not available in offline mode.')}},
+    doLaunch   : function(b){window.location.href=window.location.href.replace(/^([^\?]+)(\?.*)?$/,'$1');$m.wrapper.iframe.attr('src','./apps.html')},
+    doDevice   : function(b){$m.device.open(b)},
+    doRotate   : function(b){$m.device.rotate()},
+    doAbout    : function(b){alert($m.wrapper.ver.str)}
 };
 
 /*

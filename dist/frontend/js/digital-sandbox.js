@@ -1,5 +1,5 @@
 /*!
- * Digital Sandbox v1.3.0 (https://github.com/codeworksdev/digital-sandbox)
+ * Digital Sandbox v1.3.1 (https://github.com/codeworksdev/digital-sandbox)
  * Copyright (c) 2016 CODEWORKS <guru@codeworksnyc.com>
  * Licensed under the MIT license
  */
@@ -29,7 +29,10 @@ $(document).ready(
             case 1:
             $m.extend(
                 'apps',
-                DigitalSandboxApps
+                DigitalSandboxApps,
+                function() {
+                    this.onload()
+                    }
                 );
             break;
         }
@@ -54,8 +57,8 @@ DigitalSandboxWrapper.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2016-08-10',
-            number  : '1.3.0',
+            date    : '2016-08-17',
+            number  : '1.3.1',
             product : 'Digital Sandbox',
             type    : 'final'
             };
@@ -120,77 +123,120 @@ DigitalSandboxWrapper.prototype =
 function DigitalSandboxApps()
 {
     this._vars();
-    this._init();
 };
 
 DigitalSandboxApps.prototype =
 {
     _vars : function()
     {
-        this.items = $m.content.find('.items a');
+        this.container = $m.content.find('#apps');
+        this.cols      = this.container.find('.row > [class^="col-"][data-widgetize="yes"]');
+        this.widget    = this.container.attr('data-widget');
     },
 
-    _init : function()
+    onload : function()
     {
-        this.items.each(
-            function()
+        this.cols.each(
+            function(i)
             {
-                var a = $(this),
-                    u = a.attr('href');
-
-                if (/^\.\/\?/.test(u))
+                if (
+                  $m.apps.widget
+                  && /^\w+$/.test($m.apps.widget))
                 {
-                    a
-                    .attr('target','_top')
-                    .on(
-                        'click',
-                        function(event)
-                        {
-                            var e = $(this),
-                                h = {new : e.attr('href')};
-
-                            try
-                            {
-                                h.old = window.parent.location.href;
-
-                                event.preventDefault();
-
-                                if (window.frameElement)
-                                {
-                                    window.parent.location.replace(h.new)
-                                }
-                                else
-                                {
-                                    window.location.replace(
-                                        /^(\.\/)(.+)$/.test(h.new)
-                                          ? (RegExp.$1 + 'index.html' + RegExp.$2)
-                                          : h.new
-                                        );
-                                }
-                            }
-                            catch(Exception)
-                            {
-                                if (!/^https?:\/\//i.test(h.new))
-                                {
-                                    e.attr(
-                                        'href',
-                                        h.new = h.new.replace(/\?\d+/,'')
-                                        );
-
-                                    if (/^(\.\/)(?:index\.html)?(\?.+)$/.test(h.new))
-                                    {
-                                        e.attr(
-                                            'href',
-                                            h.new = RegExp.$1 + 'index.html?' + Math.floor(Date.now()/1000) + RegExp.$2
-                                            );
-                                    }
-                                }
-                            }
-                        }
-                        );
+                    $m.apps['widget_'+$m.apps.widget](this,i)
                 }
             }
             );
+    },
+
+    widget_accordion : function(col,i)
+    {
+        var col     = $(col),
+            id      = 'accordion'+i,
+            wrapper = ['<div class="panel-group" id="'+id+'" role="tablist" aria-multiselectable="true">','</div>'],
+            groups  = col.find('ul[title]'),
+            h       = [],
+            i       = 0,
+            g;
+
+        while (g = groups[i++])
+        {
+            h.push(
+                this.widget_accordion_group2html(
+                    g, id, i
+                    )
+                );
+        }
+
+        col.html(
+              wrapper[0]
+            + h.join('')
+            + wrapper[1]
+            );
+    },
+
+    widget_accordion_group2html : function(group,id,n)
+    {
+        var g = $(group),
+            i = 0,
+            l = g.length,
+            h = [],
+            o;
+
+        while (i < l)
+        {
+            o           = {};
+            o.container = $(g[i++]);
+            o.title     = o.container.attr('title');
+            o.apps      = o.container.find('a[href]');
+            o.n         = n;
+
+            h.push(
+                  '<div class="panel panel-default">'
+                +   '<div class="panel-heading" role="tab" id="'+id+'-heading'+o.n+'">'
+                +     '<h4 class="panel-title">'
+                +       '<a class="collapsed" role="button" data-toggle="collapse" data-parent="#'+id+'" href="#'+id+'-collapse'+o.n+'" aria-expanded="false" aria-controls="'+id+'-collapse'+o.n+'">'
+                +         o.title
+                +       '</a>'
+                +     '</h4>'
+                +   '</div>'
+                +   '<div id="'+id+'-collapse'+o.n+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'+id+'-heading'+o.n+'">'
+                +     '<div class="panel-body">'
+                +       '<table class="table table-striped table-condensed">'
+                +         '<tbody>'
+                );
+
+            _.each(
+                o.apps,
+                function(e)
+                {
+                    e = $(e);
+
+                    h.push(
+                          '<tr>'
+                        +   '<td>'
+                        +     '<a target="'+(e.attr('target')?e.attr('target'):'_top')+'" title="'+e.text()+'" href="'+e.attr('href')+'">'
+                        +       e.html()
+                        +     '</a>'
+                        +   '</td>'
+                        +   '<td class="text-right">'
+                        +     '<a target="_top" title="Launch" href="'+e.attr('href')+'"><i class="fa fa-fw fa-external-link"></i></a>'
+                        +   '</td>'
+                        + '</tr>'
+                        );
+                }
+                );
+
+            h.push(
+                          '</tbody>'
+                +       '</table>'
+                +     '</div>'
+                +   '</div>'
+                + '</div>'
+                );
+        }
+
+        return h.join('')
     }
 };
 
@@ -303,14 +349,18 @@ DigitalSandboxDevice.prototype =
         this.options = {
 
             buttons : {
-                default      : 'Default',
-                fullscreen   : 'Full Screen',
-                ipad         : 'iPad',
-                iphone_5s    : 'iPhone 5',
-                iphone_6plus : 'iPhone 6 Plus',
-                galaxy_s5    : 'Galaxy S5',
-                nexus_7      : 'Nexus 7',
-                nexus_10     : 'Nexus 10'
+                default       : 'Default',
+                fullscreen    : 'Full Screen',
+                ipad          : 'iPad',
+                ipad_air      : 'iPad Air',
+                ipad_mini     : 'iPad Mini',
+                ipad_pro_9_7  : 'iPad Pro 9.7-inch',
+                ipad_pro_12_9 : 'iPad Pro 12.9-inch',
+                iphone_5s     : 'iPhone 5',
+                iphone_6plus  : 'iPhone 6 Plus',
+                galaxy_s5     : 'Galaxy S5',
+                nexus_7       : 'Nexus 7',
+                nexus_10      : 'Nexus 10'
                 },
 
             container_id : 'device-menu'

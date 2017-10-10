@@ -1,10 +1,34 @@
 /*!
- * Digital Sandbox v1.3.1 (https://github.com/codeworksdev/digital-sandbox)
- * Copyright (c) 2016 CODEWORKS <guru@codeworksnyc.com>
+ * Digital Sandbox v1.4 (https://github.com/codeworksdev/digital-sandbox)
+ * Copyright (c) 2014-2017 CODEWORKS <guru@codeworksnyc.com>
  * Licensed under the MIT license
  */
 
-Mochi_init = function(instance)
+Mochi_onMutation = function(mutation)
+{
+};
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+Mochi_init = function()
+{
+    this.setOption(
+        'ENABLE_SERVICE_WORKER',
+        false
+        );
+};
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+function Mochi_Page0_load()
 {
 };
 
@@ -22,7 +46,10 @@ $(document).ready(
             case 0:
             $m.extend(
                 'wrapper',
-                DigitalSandboxWrapper
+                DigitalSandboxWrapper,
+                function() {
+                    this.onload()
+                    }
                 );
             break;
 
@@ -57,23 +84,25 @@ DigitalSandboxWrapper.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2016-08-17',
-            number  : '1.3.1',
+            date    : '2017-10-09',
+            number  : '1.4',
             product : 'Digital Sandbox',
             type    : 'final'
             };
 
         this.ver.str = this.ver.product+' v'+this.ver.number+'-'+this.ver.date.replace(/\D/g,'')+'-'+this.ver.type;
-        this.href    = window.location.href;
+        this.href    = decodeURI(window.location.href);
         this.url     = {};
         this.iframe  = $('#inner-content > iframe');
 
-        if (/^([^\?]+)(?:\?([^\?]*))?$/.test(this.href))
+        if (/^([^\?]+)(?:\?([^\?>]*))?(?:>(([a-z]\w*)(?::([lp]))?))?$/.test(this.href))
         {
-            this.url.dir   = RegExp.$1;
-            this.url.query = RegExp.$2;
-            this.url.type  = /^https?:\/\//i.test(this.url.query) ? 'ext' : 'int';
-            this.url.src   = './apps.html';
+            this.url.dir         = RegExp.$1;
+            this.url.query       = RegExp.$2;
+            this.url.device      = RegExp.$4;
+            this.url.orientation = RegExp.$5;
+            this.url.type        = /^https?:\/\//i.test(this.url.query) ? 'ext' : 'int';
+            this.url.src         = './apps.html';
 
             switch (this.url.type)
             {
@@ -82,7 +111,7 @@ DigitalSandboxWrapper.prototype =
                 break;
 
                 case 'int':
-                if (/^([\w-:]+)(?:\/([\w-:]*))?$/.test(this.url.query))
+                if (/^([\w-\.:]+)(?:\/([\w-\.:]*))?$/.test(this.url.query))
                 {
                     this.url.index = RegExp.$2 || 'index';
                     this.url.app   = RegExp.$1.replace(/\:/g,'/');
@@ -111,7 +140,27 @@ DigitalSandboxWrapper.prototype =
             'src',
             this.url.src
             );
-    }
+    },
+
+    onload : function()
+    {
+        if (this.url.device)
+        {
+            var s = '[data-button="'+this.url.device+'"]',
+                b = $m.device.inner.find(s);
+
+            $m.device.select(b.get(0))
+        }
+
+        if (this.url.orientation)
+        {
+            $m.device.rotate(
+                this.url.orientation
+                );
+        }
+
+        return this
+    },
 };
 
 /*
@@ -129,7 +178,7 @@ DigitalSandboxApps.prototype =
 {
     _vars : function()
     {
-        this.container = $m.content.find('#apps');
+        this.container = $m.__content.find('#apps');
         this.cols      = this.container.find('.row > [class^="col-"][data-widgetize="yes"]');
         this.widget    = this.container.attr('data-widget');
     },
@@ -212,15 +261,23 @@ DigitalSandboxApps.prototype =
                 {
                     e = $(e);
 
+                    var u = (function(u)
+                        {
+                            return /^\.\/\?(.+)$/.test(u)
+                              ? ('./index.html?'+RegExp.$1)
+                              : u;
+                        }
+                        )(e.attr('href'));
+
                     h.push(
                           '<tr>'
                         +   '<td>'
-                        +     '<a target="'+(e.attr('target')?e.attr('target'):'_top')+'" title="'+e.text()+'" href="'+e.attr('href')+'">'
+                        +     '<a target="'+(e.attr('target')?e.attr('target'):'_top')+'" title="'+e.text()+'" href="'+u+'">'
                         +       e.html()
                         +     '</a>'
                         +   '</td>'
                         +   '<td class="text-right">'
-                        +     '<a target="_top" title="Launch" href="'+e.attr('href')+'"><i class="fa fa-fw fa-external-link"></i></a>'
+                        +     '<a target="_top" title="Launch" href="'+u+'"><i class="fa fa-fw fa-external-link"></i></a>'
                         +   '</td>'
                         + '</tr>'
                         );
@@ -248,13 +305,14 @@ DigitalSandboxApps.prototype =
 
 function DigitalSandboxToolbar()
 {
-    this._vars();
+    this._options();
     this._html();
+    this._vars();
 };
 
 DigitalSandboxToolbar.prototype =
 {
-    _vars : function()
+    _options : function()
     {
         this.options = {
 
@@ -265,18 +323,33 @@ DigitalSandboxToolbar.prototype =
                 device   : 'Device Mode',
                 rotate   : 'Orientation',
                 launch   : 'Index',
-                about    : 'About'
+                about    : 'About',
+                collapse : 'Collapse/Expand',
                 }
             };
     },
 
     _html : function()
     {
-        $m.container.prepend(
+        $m.__container.prepend(
               '<div id="toolbar">'
-            + '  <div id="inner-toolbar"></div>'
+            +   '<div id="inner-toolbar"></div>'
             + '</div>'
             );
+
+        _.each(
+            this.options.buttons,
+            function(v,k) {
+                $('#inner-toolbar').append('<div data-button="'+k+'" title="'+v+'"></div>')
+                }
+            );
+    },
+
+    _vars : function()
+    {
+        this.container = $('#toolbar');
+        this.inner     = $('#inner-toolbar');
+        this.buttons   = this.container.find('[data-button]');
     },
 
     onload : function()
@@ -285,10 +358,6 @@ DigitalSandboxToolbar.prototype =
             this.options.buttons,
             function(v,k)
             {
-                $('#inner-toolbar').append(
-                    '<span data-button="'+k+'" title="'+v+'"></span>'
-                    );
-
                 switch (k)
                 {
                     case 'device':
@@ -310,6 +379,8 @@ DigitalSandboxToolbar.prototype =
                 $m.toolbar.select(this)
                 }
             );
+
+        return this
     },
 
     select : function(button)
@@ -318,7 +389,17 @@ DigitalSandboxToolbar.prototype =
             k = b.attr('data-button'),
             f = 'do'+window.s.capitalize(k);
 
-        this[f](b)
+        this[f](b);
+        return this
+    },
+
+    toggleCollapse : function()
+    {
+        var a = 'data-collapsed',
+            v = this.container.attr(a) == 'yes' ? 'no' : 'yes';
+
+        this.container.attr(a, v);
+        return this
     },
 
     doRefresh  : function(b){window.location.reload(true)},
@@ -327,7 +408,8 @@ DigitalSandboxToolbar.prototype =
     doLaunch   : function(b){window.location.href=window.location.href.replace(/^([^\?]+)(\?.*)?$/,'$1');$m.wrapper.iframe.attr('src','./apps.html')},
     doDevice   : function(b){$m.device.open(b)},
     doRotate   : function(b){$m.device.rotate()},
-    doAbout    : function(b){alert($m.wrapper.ver.str)}
+    doAbout    : function(b){alert($m.wrapper.ver.str)},
+    doCollapse : function(b){$m.toolbar.toggleCollapse()}
 };
 
 /*
@@ -338,13 +420,14 @@ DigitalSandboxToolbar.prototype =
 
 function DigitalSandboxDevice()
 {
-    this._vars();
+    this._options();
     this._html();
+    this._vars();
 };
 
 DigitalSandboxDevice.prototype =
 {
-    _vars : function()
+    _options : function()
     {
         this.options = {
 
@@ -369,13 +452,19 @@ DigitalSandboxDevice.prototype =
 
     _html : function()
     {
-        this.container = $('#inner-toolbar [data-button="device"]').append(
+        $m.toolbar.inner.find('[data-button="device"]').append(
               '<div id="'+this.options.container_id+'">'
-            + '  <div id="inner-'+this.options.container_id+'">'
-            + '    <span data-action="exit"></span>'
-            + '  </div>'
+            +   '<div id="inner-'+this.options.container_id+'">'
+            +     '<span data-action="exit"></span>'
+            +   '</div>'
             + '</div>'
-            ).find('#'+this.options.container_id);
+            )
+    },
+
+    _vars : function()
+    {
+        this.container = $('#'+this.options.container_id);
+        this.inner     = $('#inner-'+this.options.container_id);
     },
 
     onload : function()
@@ -384,49 +473,47 @@ DigitalSandboxDevice.prototype =
             this.options.buttons,
             function(v,k)
             {
-                var id = 'inner-'+$m.device.options.container_id;
+                var id = '#inner-'+$m.device.options.container_id;
 
-                $('#'+id).append(
-                    '<span data-button="'+k+'"><span>'+v+'</span></span>'
+                $(id).append(
+                      '<span data-button="'+k+'">'
+                    +   '<span>'+v+'</span>'
+                    + '</span>'
                     );
 
                 switch (k)
                 {
                     case 'default':
-                    $('#'+id+' [data-button="'+k+'"]').addClass('selected');
+                    $(id+' [data-button="'+k+'"]').addClass('selected');
                     break;
                 }
             }
             );
 
-        $m.onClick(
-            $('#inner-'+this.options.container_id).find('[data-button]'),
-            function() {
-                $m.device.select(this)
-                }
-            );
-
-        $m.onClick(
-            $('#inner-'+this.options.container_id).find('[data-action]'),
-            function() {
-                $m.device.action(this)
-                }
-            );
+        $m.onClick(this.inner.find('[data-button]'), function(){$m.device.select(this)});
+        $m.onClick(this.inner.find('[data-action]'), function(){$m.device.action(this)});
+        return this
     },
 
     select : function(button)
     {
-        var b = _.isElement(button) ? $(button) : button,
-            k = b.attr('data-button'),
-            f = 'do_'+k,
-            s = b.hasClass('selected');
+        var b = _.isElement(button) ? $(button) : button;
 
-        if (!s)
+        if (b.length)
         {
-            $('#inner-'+this.options.container_id+' [data-button="'+k+'"]').addClass('selected');
-            $('#inner-'+this.options.container_id+' :not([data-button="'+k+'"])').removeClass('selected');
-            $m.body.attr('data-device',k);
+            var k = b.attr('data-button'),
+                c = 'selected',
+                s = b.hasClass(c);
+
+            if (!s)
+            {
+                this.inner.find('[data-button="'+k+'"]').addClass(c);
+                this.inner.find(':not([data-button="'+k+'"])').removeClass(c);
+                $m.__body.attr('data-device', k);
+            }
         }
+
+        return this
     },
 
     action : function(button)
@@ -435,19 +522,28 @@ DigitalSandboxDevice.prototype =
             k = b.attr('data-action'),
             f = k;
 
-        this[f]()
+        this[f]();
+        return this
     },
 
-    rotate : function()
+    rotate : function(or)
     {
         var a = 'data-orientation',
-            o = $m.body.attr(a),
-            v = !o ? 'l' : (o == 'l' ? 'p' : 'l');
+            o,
+            v;
 
-        $m.body.attr(a,v)
+        if (/^[lp]$/.test(or)) v = or;
+        else
+        {
+            o = $m.__body.attr(a);
+            v = !o ? 'l' : (o == 'l' ? 'p' : 'l');
+        }
+
+        $m.__body.attr(a, v);
+        return this
     },
 
-    open  : function(){if(!this.container.hasClass('open'))this.container.addClass('open')},
-    close : function(){this.container.removeClass('open')},
-    exit  : function(){setTimeout(function(){$m.device.close()},50)}
+    open  : function(){if(!this.container.hasClass('open')){this.container.addClass('open')}return this},
+    close : function(){this.container.removeClass('open');return this},
+    exit  : function(){setTimeout(function(){$m.device.close()},50);return this},
 };

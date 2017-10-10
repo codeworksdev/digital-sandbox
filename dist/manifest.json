@@ -1,8 +1,11 @@
 {
-    "name"        : "Digital Sandbox",
-    "start_url"   : "index.html",
-    "display"     : "standalone",
-    "orientation" : "landscape",
+    "name"             : "Digital Sandbox",
+    "short_name"       : "Digital Sandbox",
+    "start_url"        : "index.html",
+    "display"          : "standalone",
+    "orientation"      : "portrait",
+    "theme_color"      : "#ffcc00",
+    "background_color" : "#ffcc00",
     "icons" : [
         {
             "src"   : "frontend/img/brand/launcher-icon-1x.png",

@@ -47,6 +47,8 @@ body {
 
             > iframe {
                 .reset(block);
+
+                background: @_white;
                 }
             }
         }
@@ -79,6 +81,26 @@ body {
     z-index: 10000;
     padding: 20px;
     width: 100%;
+
+    &[data-collapsed="yes"] {
+        left: auto;
+        right: 0;
+        width: auto;
+
+        #inner-toolbar {
+
+            > [data-button="collapse"] {
+
+                &:before {
+                    content: '\f137';
+                    }
+                }
+
+            > :not([data-button="collapse"]) {
+                .hide;
+                }
+            }
+        }
 
     #inner-toolbar {
         .cf;
@@ -119,6 +141,7 @@ body {
         > [data-button="rotate"]:before   {content: '\f07d';}
         > [data-button="launch"]:before   {content: '\f00b';}
         > [data-button="about"]:before    {content: '\f05a';}
+        > [data-button="collapse"]:before {content: '\f057';}
         }
     }
 
@@ -257,8 +280,6 @@ body {
 
     #toolbar {
         position: relative;
-
-
         }
 
     #device-menu #inner-device-menu {

@@ -1,112 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" data-page="0" data-view="1">
     <head>
+        <!-- Required meta tags -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="viewport"    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author"      content="">
 
-        <title>Apps | Digital Sandbox</title>
+        <title>Digital Sandbox Launcher</title>
 
-        <!-- Brand Definitions -->
-        <meta name="theme-color" content="#ffcc00">
-        <meta name="msapplication-navbutton-color" content="#ffcc00">
-        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- Branding -->
+        <meta name="theme-color"                           content="#f0f0f0">
+        <meta name="msapplication-navbutton-color"         content="#f0f0f0">
+        <meta name="apple-mobile-web-app-capable"          content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="format-detection" content="telephone=no">
+        <meta name="format-detection"                      content="telephone=no">
 
-        <!-- Brand Icons -->
-        <link rel="manifest" href="manifest.json">
-        <link rel="apple-touch-icon" href="frontend/img/brand/launcher-icon-4x.png">
-        <link rel="icon" href="frontend/img/brand/launcher-icon-1x.png">
-
-        <!-- Bootstrap with optional theme -->
-        <link media="all" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-        <link media="all" rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-
-        <!-- Mochi theme files -->
-        <link media="all" rel="stylesheet" href="mochi/css/style.css">
-        <link media="print" rel="stylesheet" href="mochi/css/print.css">
-        <!--[if IE]>
-            <link media="all" rel="stylesheet" href="mochi/css/ie.css">
-        <![endif]-->
-        <link media="all" rel="stylesheet" href="frontend/css/style.css">
-        <link media="print" rel="stylesheet" href="frontend/css/print.css">
-        <!--[if IE]>
-            <link media="all" rel="stylesheet" href="frontend/css/ie.css">
-        <![endif]-->
+        <!-- Baseline theme -->
+        <link media="all"   rel="manifest"         href="manifest.json">
+        <link media="all"   rel="apple-touch-icon" href="frontend/img/brand/launcher-icon-4x.png">
+        <link media="all"   rel="stylesheet"       href="frontend/css/style.css">
+        <link media="print" rel="stylesheet"       href="frontend/css/print.css">
     </head>
     <body>
 
-        <div id="container" class="container-fluid">
+        <div id="container" class="container my-4">
 
-            <div id="content">
+            <div class="row">
+                <div class="col-xl">
 
-                <h3><strong>Digital Sandbox:</strong> <span class="text-muted">Apps</span></h3>
-                <p class="text-muted">All available apps are listed below. Please make a selection to begin.</p>
-                <hr>
+                    <div id="header">
+                        <h1 class="display-4">Digital Sandbox</h1>
+                        <p class="lead">All available apps are listed below. Please make a selection to begin.</p>
+                        <hr>
+                    </div>
 
                 <div class="row">
                     <div class="col-sm-12">
 
-                        <h3 class="text-danger"><i class="fa fa-info-circle"></i> Note</h3>
+                        <div class="alert alert-warning" role="alert">
+                            <p class="lead"><span><i class="fa fa-info-circle"></i></span> <strong>Read Me!</strong></p>
 
-                        <p>This launcher is able to take advantage of Bootstrap's <a target="_blank" href="http://getbootstrap.com/javascript/">JavaScript components</a>. This allows
-                        you (the developer) to take advantage of widgetized launch screens rather than coding everything from a blank slate. Click the demo container below to expand
-                        its properties to see this feature in action, or click the button below to read the online documentation.</p>
+                            <p>This launcher uses <a target="_blank" href="https://getbootstrap.com/">Bootstrap</a>
+                            and <a target="_blank" href="https://github.com/codeworksdev/mochi">Mochi</a> components to help you get the
+                            most out of the digital sandbox with minimal programming necessary. Click the demos below to see these
+                            features in action, or click the button below to read the online documentation. You can delete this alert box
+                            at any time. Happy coding!</p>
 
-                        <button type="button" class="btn btn-info" onclick="window.open('https://github.com/codeworksdev/digital-sandbox/issues/65')">Open Documentation</button>
+                            <a href="https://github.com/codeworksdev/digital-sandbox" target="_blank" class="btn btn-info active" role="button" aria-pressed="true">Online Documentation</a>
+                        </div>
 
                     </div>
                 </div>
 
                 <hr>
 
-                <div id="apps" data-widget="accordion">
-                    <div class="row">
-                        <div class="col-sm-6" data-widgetize="yes">
+                    <div id="apps" data-widget="simple">
+                        <div class="row">
+                            <div class="col-sm-6">
 
-                            <h4>My First App</h4>
+                                <div data-title="Demos">
+                                    <a href="./?demos:starter-template">Starter Template</a>
+                                </div>
 
-                            <ul title="My First App">
-                                <li><a target="_top" href="./?demos:my-first-app:v1.0/index">v1.0</a></li>
-                            </ul>
+                            </div>
+                            <div class="col-sm-6">
 
+                                <div data-title="Demos (by Device Mode)">
+                                    <a href="./?demos:starter-template~default">Starter Template <span class="badge badge-info font-weight-normal">Default</span></a>
+                                    <a href="./?demos:starter-template~fullscreen">Starter Template <span class="badge badge-info font-weight-normal">Full Screen</span></a>
+                                    <a href="./?demos:starter-template~ipad">Starter Template <span class="badge badge-info font-weight-normal">iPad</span></a>
+                                    <a href="./?demos:starter-template~iphone_5s:p">Starter Template <span class="badge badge-info font-weight-normal">iPhone 5</span></a>
+                                    <a href="./?demos:starter-template~iphone_6plus:p">Starter Template <span class="badge badge-info font-weight-normal">iPhone 6 Plus</span></a>
+                                    <a href="./?demos:starter-template~galaxy_s5:p">Starter Template <span class="badge badge-info font-weight-normal">Galaxy S5</span></a>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="col-sm-6" data-widgetize="yes"></div>
                     </div>
 
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p><strong>Offline Apps</strong> <span class="text-muted">(Application Cache)</span></p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p><strong class="text-muted">Archives</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-6" data-widgetize="yes"></div>
-                        <div class="col-sm-6" data-widgetize="yes"></div>
-                    </div>
                 </div>
-
             </div>
 
         </div>
 
         <!-- Latest compiled and minified JavaScript -->
-        <script src="mochi/js/jquery/jquery.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="mochi/js/helpers/modernizr-min.js"></script>
-        <script src="mochi/js/helpers/underscore-min.js"></script>
-        <script src="mochi/js/helpers/sprintf.min.js"></script>
-        <script src="mochi/js/helpers/underscore.string.min.js"></script>
-        <script src="mochi/js/helpers/basil.min.js"></script>
+        <script src="mochi/js/libraries.js"></script>
         <script src="mochi/js/mochi.min.js"></script>
-        <script src="frontend/js/digital-sandbox.min.js"></script>
         <script src="frontend/js/onload.js"></script>
     </body>
 </html>

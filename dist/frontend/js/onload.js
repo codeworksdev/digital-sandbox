@@ -646,7 +646,9 @@ DigitalSandboxApps.prototype =
                                 {
                                     o.internal = './index.html?' + RegExp.$1;
                                     o.meta     = $m.master.getMeta(o.internal).url;
-                                    o.external = _.size(o.meta) ? (o.meta.base + o.meta.src) : null;
+                                    o.external = _.size(o.meta)
+                                        ? (/^https?:\/\//i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src))
+                                        : null;
 
                                     if (
                                       instance.bucket

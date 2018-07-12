@@ -37,8 +37,8 @@ DigitalSandboxMaster.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2018-06-18',
-            number  : '2.0',
+            date    : '2018-07-12',
+            number  : '2.0.1',
             product : 'Digital Sandbox',
             type    : 'stable'
             };
@@ -647,7 +647,7 @@ DigitalSandboxApps.prototype =
                                     o.internal = './index.html?' + RegExp.$1;
                                     o.meta     = $m.master.getMeta(o.internal).url;
                                     o.external = _.size(o.meta)
-                                        ? (/^https?:\/\//i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src))
+                                        ? (/^https?:\/{2}/i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src))
                                         : null;
 
                                     if (

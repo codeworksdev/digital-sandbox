@@ -2,7 +2,7 @@
 {
     var CACHE = {
         VERSION : 1.0,
-        DATE : '2018-07-11',
+        DATE : '2018-07-12',
         NAME : 'digital-sandbox-sw-cache-master',
         LIST : [
             './',

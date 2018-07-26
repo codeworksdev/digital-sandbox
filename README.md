@@ -1,12 +1,12 @@
 # Digital Sandbox
-_Cross-browser app launcher and device toolbar for showing responsive, mobile first web applications on the web or offline. Powered by [Mochi](#what-is-mochi) and [Bootstrap](http://getbootstrap.com/)._
+_Cross-browser app launcher and device toolbar for showing responsive, mobile first web applications on the web or offline. Powered by [Mochi](https://github.com/codeworksdev/mochi) and [Bootstrap](http://getbootstrap.com/)._
 
 > [**v2.0.1**](https://github.com/codeworksdev/digital-sandbox/releases/latest)
 
 The digital sandbox is a portable (i.e., cross-browser) app launcher and device toolbar that allows you to easily display a collection of applications and websites in a [programmable](#api) [iFrame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) window. It's inspired by Chrome DevTools' [device mode](https://developers.google.com/web/tools/chrome-devtools/device-mode/) feature, but with complete portability (i.e., can be used offline or online in most Internet browsers).
 
 ## What is Mochi?
-[Mochi](#what-is-mochi) is a ready-to-deploy HTML5 boilerplate framework that runs on [Bootstrap](http://getbootstrap.com/), but adds tons of new features, with a strong focus on offline web applications without all the limitations. It achieves this goal by fully integrating and maintaining offline versions of popular libraries that have been out in the wild for years.
+[Mochi](https://github.com/codeworksdev/mochi) is a ready-to-deploy HTML5 boilerplate framework that runs on [Bootstrap](http://getbootstrap.com/), but adds tons of new features, with a strong focus on offline web applications without all the limitations. It achieves this goal by fully integrating and maintaining offline versions of popular libraries that have been out in the wild for years.
 
 ## Usage
 To use the digital sandbox, simply [download the latest distribution package](https://github.com/codeworksdev/digital-sandbox/releases/latest) and extract the contents of the included **`dist`** folder to the root of your website directory (e.g., **`/var/www/html`** in some systems). That's it! You now have a fully functioning and completely portable device toolbar installed on your website. The digital sandbox is designed to run either online or offline, depending on your desired [configuration](#api).

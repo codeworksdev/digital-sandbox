@@ -37,8 +37,8 @@ DigitalSandboxMaster.prototype =
     _vars : function()
     {
         this.ver = {
-            date    : '2018-07-12',
-            number  : '2.0.1',
+            date    : '2018-08-01',
+            number  : '2.0.2',
             product : 'Digital Sandbox',
             type    : 'stable'
             };

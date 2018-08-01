@@ -2,7 +2,7 @@
 {
     var CACHE = {
         VERSION : 1.0,
-        DATE : '2018-07-12',
+        DATE : '2018-08-01',
         NAME : 'digital-sandbox-sw-cache-master',
         LIST : [
             './',
@@ -50,7 +50,7 @@
             'mochi/css/helpers/animate.less/dist/css/animate.css',
             'mochi/js/helpers/basil.min.js',
             'mochi/js/helpers/Chart.bundle.min.js',
-            'mochi/js/helpers/font-awesome-free/js/all.js',
+            'mochi/js/helpers/font-awesome-free/js/all.min.js',
             'mochi/js/helpers/holder.min.js',
             'mochi/js/helpers/iScroll/build/iscroll.js',
             'mochi/js/helpers/iScroll/build/iscroll.min.js',

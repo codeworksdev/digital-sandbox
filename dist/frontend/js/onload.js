@@ -100,6 +100,36 @@ DigitalSandboxWrap.prototype =
 {
     _html : function()
     {
+        (function(url)
+        {
+            var newTitle = null;
+
+            if (_.has(url, 'app'))
+            {
+                var slug = /([^\/]+)$/.exec(url.app)[1],
+                    func = function(word){return $.trim(window.s.capitalize(word, true))};
+
+                if (/\S/.test(newTitle = _.compact(_.map(slug.split(/[^a-z\d]/i), func)).join(' ')))
+                {
+                    newTitle = newTitle.replace(/(\d)\s+(\d)/g, '$1.$2');
+                    newTitle = newTitle.toUpperCase();
+                    newTitle = newTitle.replace(/\sV(\d+)/, ' v$1');
+                }
+            }
+            else if (/^https?:\/\/([^\/]+)/i.test(url.src))
+            {
+                newTitle = RegExp.$1.toLowerCase()
+            }
+
+            if (
+              newTitle !== null
+              && /\S/.test(newTitle))
+            {
+                $m.__html.find('title').text(newTitle)
+            }
+        }
+        )($m.master.url);
+
         (function()
         {
             var i = 'DigitalSandboxModalAbout',

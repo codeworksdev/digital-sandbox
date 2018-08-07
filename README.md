@@ -1,7 +1,7 @@
 # Digital Sandbox
 _Cross-browser app launcher and device toolbar for showing responsive, mobile first web applications on the web or offline. Powered by [Mochi](https://github.com/codeworksdev/mochi) and [Bootstrap](http://getbootstrap.com/)._
 
-> [**v2.0.2**](https://github.com/codeworksdev/digital-sandbox/releases/latest)
+> [**v2.1**](https://github.com/codeworksdev/digital-sandbox/releases/latest)
 
 The digital sandbox is a portable (i.e., cross-browser) app launcher and device toolbar that allows you to easily display a collection of applications and websites in a [programmable](#api) [iFrame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) window. It's inspired by Chrome DevTools' [device mode](https://developers.google.com/web/tools/chrome-devtools/device-mode/) feature, but with complete portability (i.e., can be used offline or online in most Internet browsers).
 

@@ -131,8 +131,8 @@ html {
                         position: relative;
                         border-radius: 10px;
                         background: @_white;
-                        padding: 20px 20px 12px;
-                        min-width: 220px;
+                        padding: 40px 20px 12px;
+                        min-width: 258px;
 
                         > span {
 
@@ -162,7 +162,24 @@ html {
 
                                 &:hover,
                                 &.selected {
-                                    color: @_black;
+                                    color: @_info;
+                                    }
+
+                                > span {
+
+                                    &:last-child {
+
+                                        > span {
+
+                                            &:not(:first-child) {
+                                                margin-left: 7px;
+                                                }
+
+                                            &:hover {
+                                                color: @_red;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
@@ -201,7 +218,7 @@ html {
                     }
 
                 &:not([data-wall="default"]) {
-                    background: @_grey 50% 50% no-repeat;
+                    background: @_white 50% 50% no-repeat;
                     background-size: cover;
                     }
 

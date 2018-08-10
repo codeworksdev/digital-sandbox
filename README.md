@@ -35,9 +35,8 @@ dist/
 ├── frontend/
 │   ├── apps/
 │   │   ├── demos/
-│   │   │   └── my-first-app/
-│   │   │       └── v1.0/
-│   │   │           └── index.html
+│   │   │   └── starter-template/
+│   │   │       └── index.html
 │   │   │
 │   │   └── README.txt
 │   │
@@ -86,7 +85,9 @@ dist/
 │   │       └── tile.png
 │   │
 │   ├── js/
-│   │   └── onload.js
+│   │   ├── config.js
+│   │   ├── onload.js
+│   │   └── onload.min.js
 │   │
 │   └── less/
 │       ├── _2dppx_375up.less
@@ -275,7 +276,6 @@ dist/
 │       └── _print.less
 │
 ├── .htaccess
-├── apps.html
 ├── index.html
 ├── manifest.json
 ├── offline.html
@@ -287,82 +287,80 @@ dist/
 ___
 # API
 
-The included HTML starter template ([**`dist/apps.html`**](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/apps.html)) is a great way to get started with using the digital sandbox. This template acts as your project directory (or launcher), and uses special HTML markup to structure the directory in an organized format. Continue reading below to learn how the standard template is structured.
+## Unified Configuration File
+The included unified configuration file ([**`dist/frontend/js/config.js`**](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/frontend/js/config.js)) is a great way to get started with using the digital sandbox. This file acts as your digital sandbox controller, and uses special variables to organize your apps in a consistent, accessible format. Additionally, this is where you would include the basic HTML markup that allows the sandbox work to generate the app launcher screen (i.e., the inline frame). Continue reading below to learn how the standard HTML template should be structured to take full advantage of the sandbox.
 
-## Recommended HTML Markup
-First things first! After the project directory ([**`dist/apps.html`**](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/apps.html)) is loaded and rendered, the digital sandbox will determine if it's HTML markup matches this basic structure:
+_**Note:** A full list of supported variables are listed [here](https://github.com/codeworksdev/digital-sandbox/issues/95)._
+
+## HTML Markup
+First things first! After the [unified configuration file](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/frontend/js/config.js) is loaded and processed, the digital sandbox will determine if the included HTML body markup matches this basic structure:
 
 ```html
-<div id="apps" data-widget="simple">
-    <div class="row">
-        <div class="col-sm-6">
-            <div data-title="Demos">
-                <a href="./?demos:my-first-app:v1.0/index">My First App v1.0</a>
-                <a href="./?demos:my-first-app:v2.0/index">My First App v2.0</a>
-                <a href="./?demos:my-first-app:v3.0/index">My First App v3.0</a>
-            </div>
+<div class="row">
+    <div class="col-sm-6">
+        <div data-title="Demos">
+            <a href="./?demos:my-first-app:v1.0/index">My First App v1.0</a>
+            <a href="./?demos:my-first-app:v2.0/index">My First App v2.0</a>
+            <a href="./?demos:my-first-app:v3.0/index">My First App v3.0</a>
         </div>
-        <div class="col-sm-6">
-            <div data-title="Websites">
-                <a href="https://google.com/">Google</a>
-            </div>
+    </div>
+    <div class="col-sm-6">
+        <div data-title="Websites">
+            <a href="https://google.com/">Google</a>
         </div>
     </div>
 </div>
-
 ```
-If it does, it will automatically convert it to something like this:
+If it does, it will automatically be converted to something like this:
 
 ```html
-<div id="apps" data-widget="simple">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="ds-widget ds-widget-simple" id="ds-widget-simple-0">
-                <div data-bucket="demos">
-                    <h1>Demos</h1>
-                    <table class="table table-sm table-bordered table-hover">
-                        <tbody>
-                            <tr>
-                                <td><a target="_top" title="My First App v1.0" href="./index.html?demos:my-first-app:v1.0/index">My First App v1.0</a></td>
-                                <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v1.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
-                                <td title="Launch External"><a target="_blank" href="http://sandbox2.local/frontend/apps/demos/my-first-app/v1.0/index.html"><i class="fas fa-link"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td><a target="_top" title="My First App v2.0" href="./index.html?demos:my-first-app:v2.0/index">My First App v2.0</a></td>
-                                <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v2.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
-                                <td title="Launch External"><a target="_blank" href="http://sandbox2.local/frontend/apps/demos/my-first-app/v2.0/index.html"><i class="fas fa-link"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td><a target="_top" title="My First App v3.0" href="./index.html?demos:my-first-app:v3.0/index">My First App v3.0</a></td>
-                                <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v3.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
-                                <td title="Launch External"><a target="_blank" href="http://sandbox2.local/frontend/apps/demos/my-first-app/v3.0/index.html"><i class="fas fa-link"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="ds-widget ds-widget-simple" id="ds-widget-simple-0">
+            <div data-bucket="demos">
+                <h1>Demos</h1>
+                <table class="table table-sm table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <td><a target="_top" title="My First App v1.0" href="./index.html?demos:my-first-app:v1.0/index">My First App v1.0</a></td>
+                            <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v1.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
+                            <td title="Launch External"><a target="_blank" href="http://mydomain.com/frontend/apps/demos/my-first-app/v1.0/index.html"><i class="fas fa-link"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a target="_top" title="My First App v2.0" href="./index.html?demos:my-first-app:v2.0/index">My First App v2.0</a></td>
+                            <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v2.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
+                            <td title="Launch External"><a target="_blank" href="http://mydomain.com/frontend/apps/demos/my-first-app/v2.0/index.html"><i class="fas fa-link"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td><a target="_top" title="My First App v3.0" href="./index.html?demos:my-first-app:v3.0/index">My First App v3.0</a></td>
+                            <td title="Launch Internal"><a target="_top" href="./index.html?demos:my-first-app:v3.0/index"><i class="fas fa-sign-in-alt"></i></a></td>
+                            <td title="Launch External"><a target="_blank" href="http://mydomain.com/frontend/apps/demos/my-first-app/v3.0/index.html"><i class="fas fa-link"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="ds-widget ds-widget-simple" id="ds-widget-simple-1">
-                <div data-bucket="websites">
-                    <h1>Websites</h1>
-                    <table class="table table-sm table-bordered table-hover">
-                        <tbody>
-                            <tr>
-                                <td><a target="_blank" title="Google" href="https://google.com/">Google</a></td>
-                                <td title="Launch Internal"><span class="text-muted"><i class="fas fa-sign-in-alt"></i></span></td>
-                                <td title="Launch External"><a target="_blank" href="https://google.com/"><i class="fas fa-link"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="ds-widget ds-widget-simple" id="ds-widget-simple-1">
+            <div data-bucket="websites">
+                <h1>Websites</h1>
+                <table class="table table-sm table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <td><a target="_blank" title="Google" href="https://google.com/">Google</a></td>
+                            <td title="Launch Internal"><span class="text-muted"><i class="fas fa-sign-in-alt"></i></span></td>
+                            <td title="Launch External"><a target="_blank" href="https://google.com/"><i class="fas fa-link"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 ```
 
-And there you have it! We call this type of conversion *"widgetization of the project directory"*. Once widgetized, the digital sandbox will organize your apps in a structured format that's usable in by modern browsers. You can define which widget you'd like to use by modifying the `data-widget` attribute of the HTML tag defined by the `apps` ID attribute (e.g., `<div id="apps" data-widget="simple">`). See below for a list of supported widgets.
+And there you have it! We call this type of conversion *"widgetization of the app directory"*. Once widgetized, the digital sandbox will organize your apps in a structured format that's usable by most modern browsers. You can define which widget you'd like to use by modifying the [`LAUNCHER_WIDGET_NAME`](https://github.com/codeworksdev/digital-sandbox/issues/105) variable in the unified configuration file. See below for a list of supported widgets.
 
 ## Supported Widgets
 The following widgets are supported in the [standard distribution package](https://github.com/codeworksdev/digital-sandbox/releases/latest):
@@ -373,10 +371,10 @@ The following widgets are supported in the [standard distribution package](https
 | `accordion` | Organizes your apps as Bootstrap-powered [accordions](http://getbootstrap.com/docs/4.1/components/collapse/#accordion-example). |
 
 ## Query String Parameters
-In addition to allowing you to widgetize the project directory, the digital sandbox also supports a unique query string format for customizing the way your apps are appear within the [iFrame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) window. Consider the following example:
+In addition to allowing you to widgetize the app directory, the digital sandbox also supports a unique query string format for customizing the way your apps are appear within the [iFrame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) window. Consider the following example:
 
 ### FOR EXAMPLE
-To launch **`dist/frontend/apps/demos/my-first-app/v1.0/home.html`** as an iPad device in a portrait orientation, you would call the following URL:
+To launch **`dist/frontend/apps/demos/my-first-app/v1.0/home.html`** as an iPad device in portrait orientation, you would navigate to the following URL:
 ```
 ./index.html?demos:my-first-app:v1.0/home~ipad:p|demos
 ```

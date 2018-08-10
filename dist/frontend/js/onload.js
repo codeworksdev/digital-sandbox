@@ -1,3 +1,8 @@
+/*!
+ * Digital Sandbox v2.1 (https://github.com/codeworksdev/digital-sandbox)
+ * Copyright (c) 2014-2018 CODEWORKS <support@codeworksnyc.com>
+ * Licensed under the MIT license
+ */
 function mochi_init()
 {
     if (
@@ -17,9 +22,74 @@ function mochi_init()
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 */
 
-function mochi_load()       { this.extend( 'master', DigitalSandboxMaster ) };
-function mochi_load_view0() { this.extend( 'wrap',   DigitalSandboxWrap   ) };
-function mochi_load_view1() { this.extend( 'apps',   DigitalSandboxApps   ) };
+function mochi_load_page0(responseData)
+{
+    this.extend( 'clipboard', MyClipboard          );
+    this.extend( 'master',    DigitalSandboxMaster );
+
+    window.self == window.top
+      ? this.extend('wrap', DigitalSandboxWrap)
+      : this.extend('apps', DigitalSandboxApps);
+};
+
+/*
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+*/
+
+function MyClipboard()
+{
+};
+
+MyClipboard.prototype =
+{
+    _copyFallback : function(text)
+    {
+        var textArea = document.createElement('textarea');
+
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try
+        {
+            document.execCommand('copy');
+            this.onSuccess()
+        }
+        catch (err)
+        {
+            this.onError(err)
+        }
+
+        document.body.removeChild(textArea)
+    },
+
+    copy : function(text)
+    {
+        if (!navigator.clipboard) this._copyFallback(text);
+        else
+        {
+            navigator
+              .clipboard
+              .writeText(text)
+              .then(
+                function(){$m.clipboard.onSuccess()},
+                function(err){$m.clipboard.onError(err)}
+                );
+        }
+    },
+
+    onError : function(err)
+    {
+        alert(err)
+    },
+
+    onSuccess : function()
+    {
+    },
+};
 
 /*
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
@@ -29,22 +99,112 @@ function mochi_load_view1() { this.extend( 'apps',   DigitalSandboxApps   ) };
 
 function DigitalSandboxMaster()
 {
+    this._options();
+    this._html();
     this._vars();
 };
 
 DigitalSandboxMaster.prototype =
 {
+    _options : function()
+    {
+        this.options = JSON.parse(
+            JSON.stringify(
+                _.defaults(
+                    DigitalSandboxOptions,
+                    {
+                        BODY                         : '',
+                        BROWSER_TAB_AUTO_LABEL       : true,
+                        BROWSER_TAB_SUFFIX           : 'Digital Sandbox',
+                        BROWSER_TAB_SUFFIX_DELIMITER : '|',
+                        BROWSER_TAB_SUFFIX_ENABLED   : true,
+                        LAUNCHER_AUTOGEN_TITLE_VARS  : true,
+                        LAUNCHER_ENABLE_TITLE_VAR    : true,
+                        LAUNCHER_HTML_HEADER_BODY    : '',
+                        LAUNCHER_HTML_HEADER_ENABLED : true,
+                        LAUNCHER_HTML_HEADER_H1      : 'Digital Sandbox',
+                        LAUNCHER_HTML_HEADER_H2      : 'Please make a selection to begin.',
+                        LAUNCHER_WIDGET_NAME         : 'simple',
+                        THEME_DEFAULT_DEVICE         : 'ipad',
+                        THEME_DEFAULT_ORIENTATION    : 'l',
+                        THEME_DEFAULT_WALLPAPER_NAME : 'desk',
+                        TOOLBAR_ENABLE_ABOUT         : true,
+                        TOOLBAR_ENABLE_COLLAPSE      : true,
+                        TOOLBAR_ENABLE_DEVICE        : true,
+                        TOOLBAR_ENABLE_EXPAND        : true,
+                        TOOLBAR_ENABLE_HOME          : true,
+                        TOOLBAR_ENABLE_LAUNCH        : true,
+                        TOOLBAR_ENABLE_QREFRESH      : true,
+                        TOOLBAR_ENABLE_REFRESH       : true,
+                        TOOLBAR_ENABLE_RELOAD        : true,
+                        TOOLBAR_ENABLE_ROTATE        : true,
+                        TOOLBAR_ENABLE_WALLPAPER     : true,
+                        TOOLBAR_ENABLED              : true,
+                        TOOLBAR_START_COLLAPSED      : false,
+                    }
+                    )
+                )
+            );
+    },
+
+    _html : function()
+    {
+        var insertHTML = function(h)
+            {
+                $m.__body.prepend(h.join(''));
+                $m.__container = $m.__body.find('#container')
+            };
+
+        if (window.self == window.top)
+        {
+            insertHTML([
+                '<div id="container">',
+                    '<table>',
+                        '<tbody>',
+                            '<tr>',
+                                '<td class="align-middle">',
+                                    '<div id="content">',
+                                        '<iframe src="about:blank"></iframe>',
+                                    '</div>',
+                                '</td>',
+                            '</tr>',
+                        '</tbody>',
+                    '</table>',
+                '</div>',
+                ]);
+        }
+        else
+        {
+            insertHTML([
+                '<div id="container" class="container my-4">',
+                    '<div class="row">',
+                        '<div class="col-xl">',
+                            '<div id="header" class="d-none">',
+                                '<h1 class="display-4"></h1>',
+                                '<p class="lead"></p>',
+                                '<hr>',
+                            '</div>',
+                            '<div id="apps"></div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                ]);
+
+            $m.setView(1)
+        }
+    },
+
     _vars : function()
     {
         this.ver = {
-            date    : '2018-08-01',
-            number  : '2.0.2',
+            date    : '2018-08-31',
+            number  : '2.1',
             product : 'Digital Sandbox',
-            type    : 'stable'
+            type    : 'final',
             };
 
-        this.ver.str = 'v'+this.ver.number+'-'+this.ver.date.replace(/\D/g,'')+'-'+this.ver.type;
-        this.regex   = /^([^\?]+)(?:\?([^\?~\|]*))?(?:~(([a-z]\w*)(?::([lp]))?))?(?:\|([a-z\d\-]*))?$/i;
+        this.ver.str = '<strong>v'+this.ver.number+'-'+this.ver.type+'</strong> '+this.ver.date;
+        this.regex   = /^([^\?]+)(?:\?([^\?~\|&]*))?(?:~(([a-z]\w*)(?::([lp]))?))?(?:\|([a-z\d\-]*))?(?:&title=(.*))?$/i;
         this.iframe  = $('iframe');
         this.href    = decodeURI($m.__href);
         this.url     = this.getMeta(this.href).url;
@@ -61,10 +221,11 @@ DigitalSandboxMaster.prototype =
             meta.url.query       = RegExp.$2;
             meta.url.device      = RegExp.$4;
             meta.url.orientation = RegExp.$5;
+            meta.url.title       = RegExp.$7;
             meta.url.bucket      = (function(b){return /^[a-z\d]+(\-[a-z\d]+)*$/i.test(b)?b.toLowerCase():''})(RegExp.$6);
             meta.url.base        = decodeURI($m.__href).replace(/\/[^\/]*$/, '/');
             meta.url.external    = Boolean(/^https?:\/\//i.test(meta.url.query));
-            meta.url.src         = 'apps.html'+(meta.url.bucket?('?'+meta.url.bucket):'');
+            meta.url.src         = 'index.html'+(meta.url.bucket?('?'+meta.url.bucket):'');
 
             if (meta.url.external) meta.url.src = meta.url.query;
             else
@@ -100,35 +261,80 @@ DigitalSandboxWrap.prototype =
 {
     _html : function()
     {
-        (function(url)
+        if ($m.master.options.LAUNCHER_ENABLE_TITLE_VAR)
         {
-            var newTitle = null;
-
-            if (_.has(url, 'app'))
+            (function(url)
             {
-                var slug = /([^\/]+)$/.exec(url.app)[1],
-                    func = function(word){return $.trim(window.s.capitalize(word, true))};
+                var newTitle = null;
 
-                if (/\S/.test(newTitle = _.compact(_.map(slug.split(/[^a-z\d]/i), func)).join(' ')))
+                if (
+                  _.has(url, 'title')
+                  && /\S/.test(url.title))
                 {
-                    newTitle = newTitle.replace(/(\d)\s+(\d)/g, '$1.$2');
-                    newTitle = newTitle.toUpperCase();
-                    newTitle = newTitle.replace(/\sV(\d+)/, ' v$1');
+                    newTitle = url.title
+                }
+                else if (_.has(url, 'app'))
+                {
+                    if ($m.master.options.BROWSER_TAB_AUTO_LABEL)
+                    {
+                        var slug = /([^\/]+)$/.exec(url.app)[1],
+                            func = function(word){return $.trim(window.s.capitalize(word, true))};
+
+                        if (/\S/.test(newTitle = _.compact(_.map(slug.split(/[^a-z\d]/i), func)).join(' ')))
+                        {
+                            newTitle = newTitle.replace(/(\d)\s+(\d)/g, '$1.$2');
+                            newTitle = newTitle.toUpperCase();
+                            newTitle = newTitle.replace(/\sV(\d+)/, ' v$1');
+                        }
+                    }
+                }
+                else if (/^https?:\/\/([^\/]+)/i.test(url.src))
+                {
+                    if ($m.master.options.BROWSER_TAB_AUTO_LABEL)
+                    {
+                        newTitle = RegExp.$1.toLowerCase()
+                    }
+                }
+
+                if (
+                  newTitle !== null
+                  && /\S/.test(newTitle))
+                {
+                    if ($m.master.options.BROWSER_TAB_SUFFIX_ENABLED)
+                    {
+                        newTitle += ' '+$.trim($m.master.options.BROWSER_TAB_SUFFIX_DELIMITER || '|')+' ';
+                        newTitle += /\S/.test($m.master.options.BROWSER_TAB_SUFFIX) ? $m.master.options.BROWSER_TAB_SUFFIX : $m.master.ver.product;
+                    }
+
+                    $m.__html.find('title').text(newTitle)
                 }
             }
-            else if (/^https?:\/\/([^\/]+)/i.test(url.src))
-            {
-                newTitle = RegExp.$1.toLowerCase()
-            }
-
-            if (
-              newTitle !== null
-              && /\S/.test(newTitle))
-            {
-                $m.__html.find('title').text(newTitle)
-            }
+            )($m.master.url);
         }
-        )($m.master.url);
+
+        if (/^\w+$/.test($m.master.options.THEME_DEFAULT_DEVICE))
+        {
+            $m.__body.attr(
+                'data-device',
+                $m.master.options.THEME_DEFAULT_DEVICE
+                );
+        }
+
+        if (/^\w+$/.test($m.master.options.THEME_DEFAULT_ORIENTATION))
+        {
+            $m.__body.attr(
+                'data-orientation',
+                $m.master.options.THEME_DEFAULT_ORIENTATION
+                );
+        }
+
+        if (/^\w+$/.test($m.master.options.THEME_DEFAULT_WALLPAPER_NAME))
+        {
+            $m.__body.attr(
+                'data-wall',
+                $m.master.options.THEME_DEFAULT_WALLPAPER_NAME
+                );
+        }
 
         (function()
         {
@@ -139,18 +345,21 @@ DigitalSandboxWrap.prototype =
                     '<div class="modal-content">',
                       '<div class="modal-header">',
                         '<h5 class="modal-title" id="'+i+'Label">',
-                          '<span class="text-muted"><i class="fas fa-info-circle"></i></span>',
+                          '<span><strong>'+$m.master.ver.product+' <span class="text-muted">v'+$m.master.ver.number+'</span></strong></span>',
                         '</h5>',
                         '<button type="button" class="close" data-dismiss="modal" aria-label="Close">',
                           '<span aria-hidden="true">&times;</span>',
                         '</button>',
                       '</div>',
                       '<div class="modal-body text-center py-5">',
-                        '<p><strong>'+$m.master.ver.product+'</strong> <span class="text-muted">v'+$m.master.ver.number+'</span></p>',
+
                         '<img src="frontend/img/brand/launcher-icon-4x.png" alt="Logo">',
                       '</div>',
                       '<div class="modal-footer text-right">',
                         '<small class="text-muted">'+$m.master.ver.str+'</small>',
+                        '<a target="_blank" href="https://github.com/codeworksdev/digital-sandbox" title="GitHub">',
+                          '<span class="text-info"><i class="fab fa-lg fa-github"></i></span>',
+                        '</a>',
                       '</div>',
                     '</div>',
                   '</div>',
@@ -240,22 +449,38 @@ DigitalSandboxToolbar.prototype =
 
     _html : function()
     {
-        $m.__container.prepend(
-              '<div id="toolbar">'
-            +   '<div id="inner-toolbar"></div>'
-            + '</div>'
-            );
+        var h = [
+            '<div id="toolbar">',
+              '<div id="inner-toolbar"></div>',
+            '</div>',
+            ];
+
+        if ( !$m.master.options.TOOLBAR_ENABLED        ) h[0] = h[0].replace( />$/, ' class="d-none">'       );
+        if ( $m.master.options.TOOLBAR_START_COLLAPSED ) h[0] = h[0].replace( />$/, ' data-collapsed="yes">' );
+
+        $m.__container.prepend(h.join(''));
 
         _.each(
             this.options.buttons,
             function(o)
             {
                 var t = $('#inner-toolbar'),
-                    h = '<div data-button="'+o.slug+'" title="'+o.label+'">'
-                      +   '<i class="fa-fw '+o.icon+'"></i>'
-                      + '</div>';
+                    e = Boolean($m.master.options['TOOLBAR_ENABLE_'+o.slug.toUpperCase()]),
+                    h = [
+                        '<div data-button="'+o.slug+'" title="'+o.label+'">',
+                          '<i class="fa-fw '+o.icon+'"></i>',
+                        '</div>',
+                        ];
 
-                t.append(h)
+                switch (o.slug)
+                {
+                    case 'expand':
+                    e = Boolean($m.master.options.TOOLBAR_ENABLE_COLLAPSE);
+                    break;
+                }
+
+                if (!e) h[0] = h[0].replace(/>$/, ' class="d-none">');
+                t.append(h.join(''))
             }
             );
     },
@@ -421,11 +646,20 @@ DigitalSandboxDevice.prototype =
             this.options.buttons,
             function(v, k)
             {
-                this.inner.append(
-                      '<span data-button="'+k+'">'
-                    +   '<span>'+v+'</span>'
-                    + '</span>'
-                    );
+                var h = [
+                    '<span data-button="'+k+'">',
+                      '<span title="'+v+'">'+v+'</span>',
+                      '<span class="float-right">',
+                        '<span data-option="launch-internal" title="Launch Internal"><i class="fas fa-fw fa-sign-in-alt"></i></span>',
+                        '<span data-option="launch-external" title="Launch External"><i class="fas fa-fw fa-link"></i></span>',
+                        '<span data-option="copy-url">',
+                          '<span data-toggle="popover" data-content="Copied!"><i title="Copy URL" class="far fa-copy"></i></span>',
+                        '</span>',
+                      '</span>',
+                    '</span>',
+                    ];
+
+                this.inner.append(h.join(''));
 
                 if (k == this.def)
                 {
@@ -438,8 +672,66 @@ DigitalSandboxDevice.prototype =
             this
             );
 
-        $m.onClick(this.inner.find('[data-button]'), function(){$m.device.select(this)});
         $m.onClick(this.inner.find('[data-action]'), function(){$m.device.action(this)});
+        $m.onClick(this.inner.find('[data-button] > span:nth-child(1)'), function(){$m.device.select($(this).parent())});
+
+        $m.onClick(
+            this.inner.find('[data-button] > span:last-child > span'),
+            {
+                getURLbyDeviceName : function(newDeviceName)
+                {
+                    var u_old = $m.__href,
+                        u_new = null;
+
+                    if (/\~[a-z][a-z\d_]*/.test(u_old))
+                    {
+                        u_new = u_old.replace(
+                            /\~[a-z][a-z\d_]*/,
+                            '~'+newDeviceName
+                            );
+                    }
+                    else
+                    {
+                        u_new = /\S/.test($m.master.url.query)
+                          ? u_old.replace($m.master.url.query, $m.master.url.query+'~'+newDeviceName)
+                          : (u_old+'?~'+newDeviceName);
+                    }
+
+                    return u_new
+                },
+            },
+            function(event)
+            {
+                var o = $(this),
+                    b = o.parents('[data-button]:eq(0)'),
+                    d = b.attr('data-button'),
+                    k = o.attr('data-option');
+
+                switch (k)
+                {
+                    case 'copy-url':
+                    $m.clipboard.copy(event.data.getURLbyDeviceName(d));
+
+                    setTimeout(
+                        function() {
+                            $('.popover[role="tooltip"]').popover('hide')
+                            },
+                        1500
+                        );
+                    break;
+
+                    case 'launch-external':
+                    window.location.assign(event.data.getURLbyDeviceName(d));
+                    break;
+
+                    case 'launch-internal':
+                    b.find('> span:nth-child(1)').trigger($m.getOnClickName());
+                    break;
+                }
+            }
+            );
+
+        $('[data-toggle="popover"]').popover({placement : 'left'});
         return this
     },
 
@@ -493,17 +785,80 @@ DigitalSandboxDevice.prototype =
 function DigitalSandboxApps()
 {
     this._vars();
+    this._html();
     this._init();
 };
 
 DigitalSandboxApps.prototype =
 {
-    _vars : function(data)
+    _vars : function()
     {
         this.bucket     = /\?([a-z\d]+(\-[a-z\d]+)*)$/.test(decodeURI($m.__href)) ? RegExp.$1 : '';
+        this.header     = $m.__container.find('#header');
         this.container  = $m.__container.find('#apps');
         this.widgetName = this.container.attr('data-widget');
         this.cols       = this.container.find('[class^="col-"]');
+    },
+
+    _html : function()
+    {
+        if (
+          $m.master.options.LAUNCHER_WIDGET_NAME
+          && /^\w+$/.test($m.master.options.LAUNCHER_WIDGET_NAME))
+        {
+            this.container.attr(
+                'data-widget',
+                $m.master.options.LAUNCHER_WIDGET_NAME
+                );
+
+            this.widgetName = $m.master.options.LAUNCHER_WIDGET_NAME
+        }
+
+        if ($m.master.options.LAUNCHER_HTML_HEADER_ENABLED)
+        {
+            if (
+              $m.master.options.LAUNCHER_HTML_HEADER_H1
+              && /\S/.test($m.master.options.LAUNCHER_HTML_HEADER_H1))
+            {
+                this.header.find('> h1').html(
+                    $m.master.options.LAUNCHER_HTML_HEADER_H1
+                    );
+            }
+
+            if (
+              $m.master.options.LAUNCHER_HTML_HEADER_H2
+              && /\S/.test($m.master.options.LAUNCHER_HTML_HEADER_H2))
+            {
+                this.header.find('> p.lead').html(
+                    $m.master.options.LAUNCHER_HTML_HEADER_H2
+                    );
+            }
+
+            this.header.removeClass('d-none')
+        }
+
+        if (
+          _.has($m.master.options, 'LAUNCHER_HTML_HEADER_BODY')
+          && $m.master.options.LAUNCHER_HTML_HEADER_BODY)
+        {
+            this.header.find('> p.lead').after(
+                $m.master.options.LAUNCHER_HTML_HEADER_BODY
+                );
+
+            this.cols = this.container.find('[class^="col-"]')
+        }
+
+        if (
+          _.has($m.master.options, 'BODY')
+          && $m.master.options.BODY)
+        {
+            this
+              .container
+              .empty()
+              .html($m.master.options.BODY);
+
+            this.cols = this.container.find('[class^="col-"]')
+        }
     },
 
     _init : function()
@@ -663,34 +1018,8 @@ DigitalSandboxApps.prototype =
                 function(anchor)
                 {
                     var a = $(anchor),
-                        u = (
-                            function(u, instance)
-                            {
-                                var o = {
-                                    internal : null,
-                                    external : null,
-                                    };
-
-                                if (!/^\.\/\?(.+)$/.test(u)) o.external = u;
-                                else
-                                {
-                                    o.internal = './index.html?' + RegExp.$1;
-                                    o.meta     = $m.master.getMeta(o.internal).url;
-                                    o.external = _.size(o.meta)
-                                        ? (/^https?:\/{2}/i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src))
-                                        : null;
-
-                                    if (
-                                      instance.bucket
-                                      && !/\|.*$/.test(o.internal))
-                                    {
-                                        o.internal += '|'+instance.bucket
-                                    }
-                                }
-
-                                return o
-                            }
-                            )(a.attr('href'), this),
+                        t = $.trim(a.html().replace(/\s*<\w+[^>]*>([^<]*)<\/\w+>\s*/g, ' ($1) ').replace(/\W\)/g, ')')),
+                        u = this.getMetaByURL.call(this.instance, a.attr('href'), t),
                         h = [
                             '<td>',
                               '<a target="'+(u.internal?'_top':'_blank')+'" title="'+a.text()+'" href="'+(u.internal||u.external)+'">',
@@ -711,7 +1040,43 @@ DigitalSandboxApps.prototype =
 
                     return '<tr>' + h.join('') + '</tr>'
                 },
-                this
+                {
+                    instance : this,
+                    getMetaByURL : function(u, t)
+                        {
+                            var o = {
+                                external : null,
+                                internal : null,
+                                meta     : null,
+                                };
+
+                            if (!/^\.\/\?(.+)$/.test(u)) o.external = u;
+                            else
+                            {
+                                o.internal = './index.html?' + RegExp.$1;
+
+                                if (
+                                  $m.master.options.LAUNCHER_ENABLE_TITLE_VAR
+                                  && $m.master.options.LAUNCHER_AUTOGEN_TITLE_VARS
+                                  && !/&title=.*$/.test(o.internal))
+                                {
+                                    o.internal += '&title='+encodeURIComponent(t)
+                                }
+
+                                o.meta     = $m.master.getMeta(o.internal).url;
+                                o.external = _.size(o.meta) ? (/^https?:\/{2}/i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src)) : null;
+
+                                if (
+                                  this.bucket
+                                  && !/\|.*$/.test(o.internal))
+                                {
+                                    o.internal += '|'+this.bucket
+                                }
+                            }
+
+                            return o
+                        },
+                }
                 );
 
         return h + r.join('') + f

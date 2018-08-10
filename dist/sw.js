@@ -2,11 +2,10 @@
 {
     var CACHE = {
         VERSION : 1.0,
-        DATE : '2018-08-01',
+        DATE : '2018-08-31',
         NAME : 'digital-sandbox-sw-cache-master',
         LIST : [
             './',
-            'apps.html',
             'bootstrap/css/bootstrap.css',
             'bootstrap/css/bootstrap.min.css',
             'bootstrap/css/bootstrap-grid.css',
@@ -45,7 +44,9 @@
             'frontend/img/web/walls/bulbs.jpg',
             'frontend/img/web/walls/desk.jpg',
             'frontend/img/web/walls/landscape.jpg',
+            'frontend/js/config.js',
             'frontend/js/onload.js',
+            'frontend/js/onload.min.js',
             'index.html',
             'mochi/css/helpers/animate.less/dist/css/animate.css',
             'mochi/js/helpers/basil.min.js',

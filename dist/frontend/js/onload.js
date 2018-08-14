@@ -121,6 +121,7 @@ DigitalSandboxWrap.prototype =
                       '</div>',
                       '<div class="modal-footer text-right">',
                         '<small class="text-muted">'+$m.master.ver.str+'</small>',
+                        '<small class="text-muted">' + '<a href="https://github.com/codeworksdev/digital-sandbox"> `<img border="0" alt="GitHub" src="https://github.com/favicon.ico" width="20" height="20"> </a>' + '</small>',
                       '</div>',
                     '</div>',
                   '</div>',

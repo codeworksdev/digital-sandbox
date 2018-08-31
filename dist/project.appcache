@@ -13,6 +13,8 @@ bootstrap/css/bootstrap-reboot.css
 bootstrap/css/bootstrap-reboot.min.css
 frontend/css/print.css
 frontend/css/style.css
+frontend/themes/default/css/print.css
+frontend/themes/default/css/style.css
 mochi/css/helpers/animate.less/dist/css/animate.css
 mochi/js/helpers/ViewerJS/example.local.css
 mochi/js/helpers/ViewerJS/ODFViewerPlugin.css
@@ -63,6 +65,7 @@ mochi/js/helpers/ViewerJS/tools/replaceByFileContents.js
 mochi/js/helpers/ViewerJS/HeaderCompiled.js
 mochi/js/helpers/underscore.string.min.js
 mochi/js/helpers/Chart.bundle.min.js
+mochi/js/helpers/clipboard.min.js
 mochi/js/helpers/basil.min.js
 mochi/js/helpers/holder.min.js
 mochi/js/helpers/font-awesome-free/js/all.min.js
@@ -72,6 +75,7 @@ sw.js
 frontend/js/onload.js
 frontend/js/config.js
 frontend/js/onload.min.js
+frontend/themes/default/onload.js
 
 # PNG/JPEG/GIF
 frontend/img/brand/launcher-icon-1x.png

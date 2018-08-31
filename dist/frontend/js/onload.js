@@ -113,34 +113,36 @@ DigitalSandboxMaster.prototype =
                 _.defaults(
                     DigitalSandboxOptions,
                     {
-                        BODY                         : '',
-                        BROWSER_TAB_AUTO_LABEL       : true,
-                        BROWSER_TAB_SUFFIX           : 'Digital Sandbox',
-                        BROWSER_TAB_SUFFIX_DELIMITER : '|',
-                        BROWSER_TAB_SUFFIX_ENABLED   : true,
-                        LAUNCHER_AUTOGEN_TITLE_VARS  : true,
-                        LAUNCHER_ENABLE_TITLE_VAR    : true,
-                        LAUNCHER_HTML_HEADER_BODY    : '',
-                        LAUNCHER_HTML_HEADER_ENABLED : true,
-                        LAUNCHER_HTML_HEADER_H1      : 'Digital Sandbox',
-                        LAUNCHER_HTML_HEADER_H2      : 'Please make a selection to begin.',
-                        LAUNCHER_WIDGET_NAME         : 'simple',
-                        THEME_DEFAULT_DEVICE         : 'ipad',
-                        THEME_DEFAULT_ORIENTATION    : 'l',
-                        THEME_DEFAULT_WALLPAPER_NAME : 'desk',
-                        TOOLBAR_ENABLE_ABOUT         : true,
-                        TOOLBAR_ENABLE_COLLAPSE      : true,
-                        TOOLBAR_ENABLE_DEVICE        : true,
-                        TOOLBAR_ENABLE_EXPAND        : true,
-                        TOOLBAR_ENABLE_HOME          : true,
-                        TOOLBAR_ENABLE_LAUNCH        : true,
-                        TOOLBAR_ENABLE_QREFRESH      : true,
-                        TOOLBAR_ENABLE_REFRESH       : true,
-                        TOOLBAR_ENABLE_RELOAD        : true,
-                        TOOLBAR_ENABLE_ROTATE        : true,
-                        TOOLBAR_ENABLE_WALLPAPER     : true,
-                        TOOLBAR_ENABLED              : true,
-                        TOOLBAR_START_COLLAPSED      : false,
+                        BODY                             : '',
+                        BROWSER_TAB_AUTO_LABEL           : true,
+                        BROWSER_TAB_SUFFIX               : 'Digital Sandbox',
+                        BROWSER_TAB_SUFFIX_DELIMITER     : '|',
+                        BROWSER_TAB_SUFFIX_ENABLED       : true,
+                        LAUNCHER_AUTOGEN_TITLE_VARS      : true,
+                        LAUNCHER_ENABLE_FOLDER_SWITCHING : true,
+                        LAUNCHER_ENABLE_TITLE_VAR        : true,
+                        LAUNCHER_HTML_HEADER_BODY        : '',
+                        LAUNCHER_HTML_HEADER_ENABLED     : true,
+                        LAUNCHER_HTML_HEADER_H1          : 'Digital Sandbox',
+                        LAUNCHER_HTML_HEADER_H2          : 'Please make a selection to begin.',
+                        LAUNCHER_WIDGET_NAME             : 'simple',
+                        THEME_DEFAULT_DEVICE             : 'ipad',
+                        THEME_DEFAULT_ORIENTATION        : 'l',
+                        THEME_DEFAULT_WALLPAPER_NAME     : 'desk',
+                        THEME_NAME                       : 'default',
+                        TOOLBAR_ENABLE_ABOUT             : true,
+                        TOOLBAR_ENABLE_COLLAPSE          : true,
+                        TOOLBAR_ENABLE_DEVICE            : true,
+                        TOOLBAR_ENABLE_EXPAND            : true,
+                        TOOLBAR_ENABLE_HOME              : true,
+                        TOOLBAR_ENABLE_LAUNCH            : true,
+                        TOOLBAR_ENABLE_QREFRESH          : true,
+                        TOOLBAR_ENABLE_REFRESH           : true,
+                        TOOLBAR_ENABLE_RELOAD            : true,
+                        TOOLBAR_ENABLE_ROTATE            : true,
+                        TOOLBAR_ENABLE_WALLPAPER         : true,
+                        TOOLBAR_ENABLED                  : true,
+                        TOOLBAR_START_COLLAPSED          : false,
                     }
                     )
                 )
@@ -191,6 +193,49 @@ DigitalSandboxMaster.prototype =
                 ]);
 
             $m.setView(1)
+        }
+
+        if (
+          this.options.THEME_NAME
+          && /^\w+$/.test(this.options.THEME_NAME))
+        {
+            (function(instance)
+            {
+                var t = +new Date(),
+                    j = 'frontend/themes/'+instance.options.THEME_NAME+'/onload.js',
+                    c = [
+                        'frontend/themes/default/css/style.css?_='+t,
+                        'frontend/themes/default/css/print.css?_='+t,
+                        ];
+
+                $m
+                .__head
+                .append(
+                      '<link rel="stylesheet" href="'+c[0]+'" media="all">'
+                    + '<link rel="stylesheet" href="'+c[1]+'" media="print">'
+                    );
+
+                if (/^https?:\/\//.test($m.__href))
+                {
+                    $
+                    .getScript(j)
+                    .fail(
+                        function(jqxhr, settings, exception) {
+                            console.error('Unable to load theme scripts.')
+                            }
+                        );
+                }
+                else
+                {
+                    var script = document.createElement('script');
+                        script.src = j+'?_='+t;
+
+                    document
+                      .getElementsByTagName('body')[0]
+                      .appendChild(script);
+                }
+            }
+            )(this);
         }
     },
 
@@ -859,10 +904,7 @@ DigitalSandboxApps.prototype =
 
             this.cols = this.container.find('[class^="col-"]')
         }
-    },
 
-    _init : function()
-    {
         if (this.cols.length)
         {
             if (
@@ -900,10 +942,31 @@ DigitalSandboxApps.prototype =
                     },
                     this
                     );
+
+                $m.onClick(
+                    this.cols.find('[data-obj]'),
+                    function(event)
+                    {
+                        var b = $(this),
+                            f = 'do__'+b.attr('data-obj');
+
+                        if ($m.apps[f])
+                        {
+                            event.preventDefault();
+                            $m.apps[f](b)
+                        }
+                    }
+                    );
             }
         }
+    },
 
-        $m.__body.attr('data-ready', 'yes')
+    _init : function()
+    {
+        $m.__body.attr(
+            'data-ready',
+            'yes'
+            );
     },
 
     __widget_accordion : function(meta)
@@ -941,6 +1004,16 @@ DigitalSandboxApps.prototype =
                                 +         t
                                 +       '</button>'
                                 +     '</h5>'
+                                +     '<a'
+                                +       ' data-enabled="'+($m.master.options.LAUNCHER_ENABLE_FOLDER_SWITCHING?'yes':'no')+'"'
+                                +       ' data-obj="folder"'
+                                +       ' data-action="'+($m.master.url.query?'close':'open')+'"'
+                                +       ' title="'+($m.master.url.query?'Close':'Open')+' Folder"'
+                                +       ' href="'+$m.master.url.dir+($m.master.url.query?'':('?|'+s))+'"'
+                                +       ' target="_top">'
+                                +       '<i class="fas fa-folder-open"></i>'
+                                +       '<i class="fas fa-folder"></i>'
+                                +     '</a>'
                                 +   '</div>'
                                 +   '<div id="'+id+'-collapse'+n+'" class="collapse" aria-labelledby="'+id+'-heading'+n+'" data-parent="#'+id+'">'
                                 +     '<div class="card-body">'
@@ -992,6 +1065,16 @@ DigitalSandboxApps.prototype =
                             h.push(
                                   '<div data-bucket="'+s+'">'
                                 +   '<h1>'+t+'</h1>'
+                                +     '<a'
+                                +       ' data-enabled="'+($m.master.options.LAUNCHER_ENABLE_FOLDER_SWITCHING?'yes':'no')+'"'
+                                +       ' data-obj="folder"'
+                                +       ' data-action="'+($m.master.url.query?'close':'open')+'"'
+                                +       ' title="'+($m.master.url.query?'Close':'Open')+' Folder"'
+                                +       ' href="'+$m.master.url.dir+($m.master.url.query?'':('?|'+s))+'"'
+                                +       ' target="_top">'
+                                +       '<i class="fas fa-folder-open"></i>'
+                                +       '<i class="fas fa-folder"></i>'
+                                +     '</a>'
                                 +   instance.getHTML_table(g)
                                 + '</div>'
                                 );
@@ -1055,14 +1138,6 @@ DigitalSandboxApps.prototype =
                             {
                                 o.internal = './index.html?' + RegExp.$1;
 
-                                if (
-                                  $m.master.options.LAUNCHER_ENABLE_TITLE_VAR
-                                  && $m.master.options.LAUNCHER_AUTOGEN_TITLE_VARS
-                                  && !/&title=.*$/.test(o.internal))
-                                {
-                                    o.internal += '&title='+encodeURIComponent(t)
-                                }
-
                                 o.meta     = $m.master.getMeta(o.internal).url;
                                 o.external = _.size(o.meta) ? (/^https?:\/{2}/i.test(o.meta.src) ? o.meta.src : (o.meta.base + o.meta.src)) : null;
 
@@ -1071,6 +1146,14 @@ DigitalSandboxApps.prototype =
                                   && !/\|.*$/.test(o.internal))
                                 {
                                     o.internal += '|'+this.bucket
+                                }
+
+                                if (
+                                  $m.master.options.LAUNCHER_ENABLE_TITLE_VAR
+                                  && $m.master.options.LAUNCHER_AUTOGEN_TITLE_VARS
+                                  && !/&title=.*$/.test(o.internal))
+                                {
+                                    o.internal += '&title='+encodeURIComponent(t)
                                 }
                             }
 

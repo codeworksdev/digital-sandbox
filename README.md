@@ -89,44 +89,95 @@ dist/
 │   │   ├── onload.js
 │   │   └── onload.min.js
 │   │
-│   └── less/
-│       ├── _2dppx_375up.less
-│       ├── _2dppx_425up.less
-│       ├── _2dppx_480up.less
-│       ├── _2dppx_576up.less
-│       ├── _2dppx_750up.less
-│       ├── _2dppx_768up.less
-│       ├── _2dppx_970up.less
-│       ├── _2dppx_992up.less
-│       ├── _2dppx_1020up.less
-│       ├── _2dppx_1024up.less
-│       ├── _2dppx_1170up.less
-│       ├── _2dppx_1200up.less
-│       ├── _2dppx_1440up.less
-│       ├── _2dppx_1560up.less
-│       ├── _2dppx_2560up.less
-│       ├── _2dppx_base.less
-│       ├── _375up.less
-│       ├── _425up.less
-│       ├── _480up.less
-│       ├── _576up.less
-│       ├── _750up.less
-│       ├── _768up.less
-│       ├── _970up.less
-│       ├── _992up.less
-│       ├── _1020up.less
-│       ├── _1024up.less
-│       ├── _1170up.less
-│       ├── _1200up.less
-│       ├── _1440up.less
-│       ├── _1560up.less
-│       ├── _2560up.less
-│       ├── _base.less
-│       ├── _mixins.less
-│       ├── _notouch.less
-│       ├── _print.less
-│       ├── print.less
-│       └── style.less
+│   ├── less/
+│   │   ├── _2dppx_375up.less
+│   │   ├── _2dppx_425up.less
+│   │   ├── _2dppx_480up.less
+│   │   ├── _2dppx_576up.less
+│   │   ├── _2dppx_640up.less
+│   │   ├── _2dppx_750up.less
+│   │   ├── _2dppx_768up.less
+│   │   ├── _2dppx_970up.less
+│   │   ├── _2dppx_992up.less
+│   │   ├── _2dppx_1020up.less
+│   │   ├── _2dppx_1024up.less
+│   │   ├── _2dppx_1170up.less
+│   │   ├── _2dppx_1200up.less
+│   │   ├── _2dppx_1440up.less
+│   │   ├── _2dppx_1560up.less
+│   │   ├── _2dppx_2560up.less
+│   │   ├── _2dppx_base.less
+│   │   ├── _375up.less
+│   │   ├── _425up.less
+│   │   ├── _480up.less
+│   │   ├── _576up.less
+│   │   ├── _640up.less
+│   │   ├── _750up.less
+│   │   ├── _768up.less
+│   │   ├── _970up.less
+│   │   ├── _992up.less
+│   │   ├── _1020up.less
+│   │   ├── _1024up.less
+│   │   ├── _1170up.less
+│   │   ├── _1200up.less
+│   │   ├── _1440up.less
+│   │   ├── _1560up.less
+│   │   ├── _2560up.less
+│   │   ├── _base.less
+│   │   ├── _mixins.less
+│   │   ├── _notouch.less
+│   │   ├── _print.less
+│   │   ├── print.less
+│   │   └── style.less
+│   │
+│   └── themes/
+│       └── default/
+│           ├── css/
+│           │   ├── print.css
+│           │   └── style.css
+│           │
+│           ├── less/
+│           │   ├── _2dppx_375up.less
+│           │   ├── _2dppx_425up.less
+│           │   ├── _2dppx_480up.less
+│           │   ├── _2dppx_576up.less
+│           │   ├── _2dppx_640up.less
+│           │   ├── _2dppx_750up.less
+│           │   ├── _2dppx_768up.less
+│           │   ├── _2dppx_970up.less
+│           │   ├── _2dppx_992up.less
+│           │   ├── _2dppx_1020up.less
+│           │   ├── _2dppx_1024up.less
+│           │   ├── _2dppx_1170up.less
+│           │   ├── _2dppx_1200up.less
+│           │   ├── _2dppx_1440up.less
+│           │   ├── _2dppx_1560up.less
+│           │   ├── _2dppx_2560up.less
+│           │   ├── _2dppx_base.less
+│           │   ├── _375up.less
+│           │   ├── _425up.less
+│           │   ├── _480up.less
+│           │   ├── _576up.less
+│           │   ├── _640up.less
+│           │   ├── _750up.less
+│           │   ├── _768up.less
+│           │   ├── _970up.less
+│           │   ├── _992up.less
+│           │   ├── _1020up.less
+│           │   ├── _1024up.less
+│           │   ├── _1170up.less
+│           │   ├── _1200up.less
+│           │   ├── _1440up.less
+│           │   ├── _1560up.less
+│           │   ├── _2560up.less
+│           │   ├── _base.less
+│           │   ├── _mixins.less
+│           │   ├── _notouch.less
+│           │   ├── _print.less
+│           │   ├── print.less
+│           │   └── style.less
+│           │
+│           └── onload.js
 │
 ├── mochi/
 │   ├── css/
@@ -193,6 +244,7 @@ dist/
 │   │   │   │
 │   │   │   ├── basil.min.js
 │   │   │   ├── Chart.bundle.min.js
+│   │   │   ├── clipboard.min.js
 │   │   │   ├── holder.min.js
 │   │   │   ├── modernizr-custom.js
 │   │   │   ├── popper.min.js
@@ -243,6 +295,7 @@ dist/
 │       ├── _2dppx_425up.less
 │       ├── _2dppx_480up.less
 │       ├── _2dppx_576up.less
+│       ├── _2dppx_640up.less
 │       ├── _2dppx_750up.less
 │       ├── _2dppx_768up.less
 │       ├── _2dppx_970up.less
@@ -259,6 +312,7 @@ dist/
 │       ├── _425up.less
 │       ├── _480up.less
 │       ├── _576up.less
+│       ├── _640up.less
 │       ├── _750up.less
 │       ├── _768up.less
 │       ├── _970up.less
@@ -287,8 +341,8 @@ dist/
 ___
 # API
 
-## Unified Configuration File
-The included unified configuration file ([**`dist/frontend/js/config.js`**](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/frontend/js/config.js)) is a great way to get started with using the digital sandbox. This file acts as your digital sandbox controller, and uses special variables to organize your apps in a consistent, accessible format. Additionally, this is where you would include the basic HTML markup that allows the sandbox work to generate the app launcher screen (i.e., the inline frame). Continue reading below to learn how the standard HTML template should be structured to take full advantage of the sandbox.
+## Configuration File
+The included configuration file ([**`dist/frontend/js/config.js`**](https://github.com/codeworksdev/digital-sandbox/blob/master/dist/frontend/js/config.js)) is a great way to get started with using the digital sandbox. This file acts as your digital sandbox controller center, and uses special variables to organize your apps in a consistent, accessible format. Additionally, this is where you would include the basic HTML markup that allows the sandbox work to generate the app launcher screen (i.e., the inline frame). Continue reading below to learn how the standard HTML template should be structured to take full advantage of the sandbox.
 
 _**Note:** A full list of supported variables are listed [here](https://github.com/codeworksdev/digital-sandbox/issues/95)._
 
@@ -376,16 +430,17 @@ In addition to allowing you to widgetize the app directory, the digital sandbox 
 ### FOR EXAMPLE
 To launch **`dist/frontend/apps/demos/my-first-app/v1.0/home.html`** as an iPad device in portrait orientation, you would navigate to the following URL:
 ```
-./index.html?demos:my-first-app:v1.0/home~ipad:p|demos
+./index.html?demos:my-first-app:v1.0/home~ipad:p|demos&title=Welcome
 ```
 The URL above would produce an iFrame window configured as:
 
-1. wrapped in a device image referenced as `ipad` (i.e., a standard iPad), and
+1. a wrapped window in a device image referenced as `ipad` (i.e., a standard iPad), and
 2. with the `ipad` device image set to `portrait` orientation, and
-3. ensuring the digital sandbox is aware that the app is categorized under `demos`, which would
-4. allow the sandbox to refer back to the category when the user interacts with the toolbar, and
+3. ensuring the digital sandbox is aware the app is located under the `demos` folder, which would
+4. allow the sandbox to refer back to the folder when the user interacts with the toolbar, and
 5. making sure the app link always refreshes the iFrame parent window, and
-6. that the `home.html` file in **`dist/frontend/apps/demos/my-first-app/v1.0`** is opened.
+6. the `home.html` file in **`dist/frontend/apps/demos/my-first-app/v1.0`** is opened, and
+7. ensure the browser tab label is set to "Welcome".
 
 ___
 # Further Reading

@@ -131,8 +131,8 @@ html {
                         position: relative;
                         border-radius: 10px;
                         background: @_white;
-                        padding: 20px 20px 12px;
-                        min-width: 220px;
+                        padding: 40px 20px 12px;
+                        min-width: 258px;
 
                         > span {
 
@@ -162,7 +162,24 @@ html {
 
                                 &:hover,
                                 &.selected {
-                                    color: @_black;
+                                    color: @_info;
+                                    }
+
+                                > span {
+
+                                    &:last-child {
+
+                                        > span {
+
+                                            &:not(:first-child) {
+                                                margin-left: 7px;
+                                                }
+
+                                            &:hover {
+                                                color: @_red;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
@@ -201,7 +218,7 @@ html {
                     }
 
                 &:not([data-wall="default"]) {
-                    background: @_grey 50% 50% no-repeat;
+                    background: @_white 50% 50% no-repeat;
                     background-size: cover;
                     }
 
@@ -580,6 +597,69 @@ html[data-page="0"][data-view="1"] body #apps {
                         }
                     }
                 }
+
+            [data-obj="folder"] {
+                .reset;
+                .size(18px, 18px, block);
+                #a.transition(color, 0.25s);
+
+                position: absolute;
+                right: 8px;
+                top: 0;
+                z-index: 10;
+                color: lighten(@_black, 66%);
+                cursor: pointer;
+
+                svg {
+                    position: relative;
+                    }
+
+                &[data-action="open"] {
+
+                    svg {
+
+                        &[data-icon="folder-open"] {
+                            .hide;
+                            }
+                        }
+                    }
+
+                &[data-action="close"] {
+
+                    svg {
+
+                        &[data-icon="folder"] {
+                            .hide;
+                            }
+                        }
+                    }
+
+                &:hover {
+                    color: @_red;
+
+                    &[data-action="open"] {
+
+                        svg {
+
+                            &[data-icon="folder-open"] {.show;}
+                            &[data-icon="folder"]      {.hide;}
+                            }
+                        }
+
+                    &[data-action="close"] {
+
+                        svg {
+
+                            &[data-icon="folder-open"] {.hide;}
+                            &[data-icon="folder"]      {.show;}
+                            }
+                        }
+                    }
+
+                &[data-enabled="no"] {
+                    .hide;
+                    }
+                }
             }
         }
 
@@ -588,9 +668,14 @@ html[data-page="0"][data-view="1"] body #apps {
         .ds-widget {
 
             > div {
+                position: relative;
                 padding: 10px;
                 background: lighten(@_black, 95%);
                 margin-bottom: 1em;
+
+                [data-obj="folder"] {
+                    top: 13px;
+                    }
                 }
             }
         }
@@ -611,6 +696,7 @@ html[data-page="0"][data-view="1"] body #apps {
                 margin-bottom: 0.5em;
 
                 .card-header {
+                    position: relative;
                     padding: 0.2rem;
 
                     .btn-link {
@@ -625,6 +711,10 @@ html[data-page="0"][data-view="1"] body #apps {
                             text-decoration: none;
                             color: @_black;
                             }
+                        }
+
+                    [data-obj="folder"] {
+                        top: 15px;
                         }
                     }
                 }

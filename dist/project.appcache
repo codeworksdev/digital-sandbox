@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v1.0 2018-08-01
+# v1.0 2018-08-31
 
 # HTML files should not be included here
 CACHE:
@@ -13,6 +13,8 @@ bootstrap/css/bootstrap-reboot.css
 bootstrap/css/bootstrap-reboot.min.css
 frontend/css/print.css
 frontend/css/style.css
+frontend/themes/default/css/print.css
+frontend/themes/default/css/style.css
 mochi/css/helpers/animate.less/dist/css/animate.css
 mochi/js/helpers/ViewerJS/example.local.css
 mochi/js/helpers/ViewerJS/ODFViewerPlugin.css
@@ -27,49 +29,53 @@ mochi/js/jquery/ui/jquery-ui.theme.css
 mochi/js/jquery/ui/jquery-ui.theme.min.css
 
 # JS
-bootstrap/js/bootstrap.bundle.js
-bootstrap/js/bootstrap.bundle.min.js
 bootstrap/js/bootstrap.js
 bootstrap/js/bootstrap.min.js
-frontend/js/onload.js
-mochi/js/helpers/basil.min.js
-mochi/js/helpers/Chart.bundle.min.js
-mochi/js/helpers/font-awesome-free/js/all.min.js
-mochi/js/helpers/holder.min.js
-mochi/js/helpers/iScroll/build/iscroll.js
-mochi/js/helpers/iScroll/build/iscroll.min.js
-mochi/js/helpers/iScroll/build/iscroll-infinite.js
-mochi/js/helpers/iScroll/build/iscroll-infinite.min.js
+bootstrap/js/bootstrap.bundle.min.js
+bootstrap/js/bootstrap.bundle.js
+mochi/js/jquery/ui/jquery-ui.min.js
+mochi/js/jquery/ui/jquery-ui.js
+mochi/js/jquery/jquery.min.js
+mochi/js/mochi.min.js
+mochi/js/plugins/veeva/dist/veeva.min.js
+mochi/js/plugins/veeva/dist/veeva.js
+mochi/js/plugins/veeva/dist/veeva-library.min.js
+mochi/js/plugins/veeva/dist/veeva-library.js
+mochi/js/plugins/dialog/dist/dialog.min.js
+mochi/js/plugins/dialog/dist/dialog.js
+mochi/js/mochi.js
 mochi/js/helpers/iScroll/build/iscroll-lite.js
 mochi/js/helpers/iScroll/build/iscroll-lite.min.js
-mochi/js/helpers/iScroll/build/iscroll-probe.js
-mochi/js/helpers/iScroll/build/iscroll-probe.min.js
+mochi/js/helpers/iScroll/build/iscroll-infinite.min.js
+mochi/js/helpers/iScroll/build/iscroll-infinite.js
 mochi/js/helpers/iScroll/build/iscroll-zoom.js
+mochi/js/helpers/iScroll/build/iscroll-probe.js
+mochi/js/helpers/iScroll/build/iscroll.js
 mochi/js/helpers/iScroll/build/iscroll-zoom.min.js
-mochi/js/helpers/modernizr-custom.js
-mochi/js/helpers/popper.min.js
+mochi/js/helpers/iScroll/build/iscroll.min.js
+mochi/js/helpers/iScroll/build/iscroll-probe.min.js
 mochi/js/helpers/sprintf.min.js
-mochi/js/helpers/underscore.string.min.js
 mochi/js/helpers/underscore-min.js
-mochi/js/helpers/ViewerJS/HeaderCompiled.js
-mochi/js/helpers/ViewerJS/ODFViewerPlugin.js
-mochi/js/helpers/ViewerJS/PDFViewerPlugin.js
+mochi/js/helpers/popper.min.js
 mochi/js/helpers/ViewerJS/PluginLoader.js
-mochi/js/helpers/ViewerJS/tools/replaceByFileContents.js
+mochi/js/helpers/ViewerJS/PDFViewerPlugin.js
+mochi/js/helpers/ViewerJS/ODFViewerPlugin.js
 mochi/js/helpers/ViewerJS/viewer.js
-mochi/js/jquery/jquery.min.js
-mochi/js/jquery/ui/jquery-ui.js
-mochi/js/jquery/ui/jquery-ui.min.js
+mochi/js/helpers/ViewerJS/tools/replaceByFileContents.js
+mochi/js/helpers/ViewerJS/HeaderCompiled.js
+mochi/js/helpers/underscore.string.min.js
+mochi/js/helpers/Chart.bundle.min.js
+mochi/js/helpers/clipboard.min.js
+mochi/js/helpers/basil.min.js
+mochi/js/helpers/holder.min.js
+mochi/js/helpers/font-awesome-free/js/all.min.js
+mochi/js/helpers/modernizr-custom.js
 mochi/js/libraries.js
-mochi/js/mochi.js
-mochi/js/mochi.min.js
-mochi/js/plugins/dialog/dist/dialog.js
-mochi/js/plugins/dialog/dist/dialog.min.js
-mochi/js/plugins/veeva/dist/veeva.js
-mochi/js/plugins/veeva/dist/veeva.min.js
-mochi/js/plugins/veeva/dist/veeva-library.js
-mochi/js/plugins/veeva/dist/veeva-library.min.js
 sw.js
+frontend/js/onload.js
+frontend/js/config.js
+frontend/js/onload.min.js
+frontend/themes/default/onload.js
 
 # PNG/JPEG/GIF
 frontend/img/brand/launcher-icon-1x.png
